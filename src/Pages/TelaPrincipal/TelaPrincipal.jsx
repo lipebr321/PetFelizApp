@@ -1,13 +1,12 @@
 import React from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import AnimalCard from './src/Components/AnimalCard/AnimalCard';
 
 
-const TelaPrincipal = ({ navigation }) => {
-
+const TelaPrincipal = () => {
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Bem-vindo à Tela Principal</Text>
-      <Button title="Logout" onPress={() => navigation.navigate('TelaDeLogin')} />
+      <AnimalCard />
     </View>
   );
 };
@@ -17,11 +16,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  header: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
   },
 });
 
