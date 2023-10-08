@@ -1,12 +1,12 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import AnimalCard from './src/Components/AnimalCard/AnimalCard';
+//import AnimalCard from './src/Components/AnimalCard/AnimalCard';
 
 
 const TelaPrincipal = () => {
   return (
     <View style={styles.container}>
-      <AnimalCard />
+      <Text>tela principal</Text>
     </View>
   );
 };

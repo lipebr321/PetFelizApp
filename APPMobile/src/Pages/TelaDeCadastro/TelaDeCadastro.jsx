@@ -49,6 +49,8 @@ const TelaDeCadastro = () => {
       contentContainerStyle={styles.container}
       keyboardShouldPersistTaps="handled"
     >
+
+      <Text style={styles.topo}>Faça seu cadastro!</Text>
    
       <Controller
         control={control}
@@ -245,9 +247,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   labelError: {
-    color: 'red',
     fontSize: 16,
-    marginTop: 5,
+    color: '#ff375b',
+    marginBottom: 2,
   },
 });
 

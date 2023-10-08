@@ -4,6 +4,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import axios from 'axios';
+import logo from '/src/Components/images/LogoGrande.png'
 
 
 const schema = yup.object({
@@ -61,6 +62,8 @@ const TelaDeLogin = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+
+      <Image source={logo} style={styles.logo}/>
     
       <Controller
         control={control}
@@ -115,6 +118,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: 'white'
   },
   logo: {
     width: 120,
@@ -157,9 +161,9 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
   labelError: {
-    alignSelf: 'flex-start',
+    fontSize: 16,
     color: '#ff375b',
-    marginBottom: 8,
+    marginBottom: 2,
   },
 });
 
