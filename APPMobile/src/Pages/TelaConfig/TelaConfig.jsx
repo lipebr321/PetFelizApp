@@ -1,14 +1,14 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 
-function TelaPrincipal() {
+function TelaConfig () {
 
 
   return (
     <View>
-      <Text>Tela Principal</Text>
+      <Text>Configurações</Text>
     </View>
   );
 }
 
-export default TelaPrincipal;
+export default TelaConfig;

@@ -1,14 +1,13 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 
-function TelaPrincipal() {
 
-
+const FAQ = () => {
   return (
     <View>
-      <Text>Tela Principal</Text>
+      <Text>Faq</Text>
     </View>
   );
 }
 
-export default TelaPrincipal;
+export default FAQ;

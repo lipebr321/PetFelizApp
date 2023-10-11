@@ -1,27 +1,25 @@
-import React from 'react';
-//import { NavigationContainer } from '@react-navigation/native';
-//import { createStackNavigator } from '@react-navigation/stack';
-//import TelaDeLogin from './src/Pages/TelaDeLogin/TelaDeLogin';
-//import TelaDeCadastro from './src/Pages/TelaDeCadastro/TelaDeCadastro';
-//import TelaPrincipal from './src/Pages/TelaPrincipal/TelaPrincipal';
-import CadastroAnimal from './src/Pages/CadastroAnimal/CadastroAnimal';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import TelaDeLogin from './src/Pages/TelaDeLogin/TelaDeLogin';
+import TelaDeCadastro from './src/Pages/TelaDeCadastro/TelaDeCadastro';
+import TelaPrincipalNavigator from './src/Components/TelaPrincipalNavigator/TelaPrincipalNavigator';
+import TelaPet from './src/Pages/TelaPet/TelaPet';
 
 
 
-//const Stack = createStackNavigator();
+const Stack = createStackNavigator();
 
-const App = () => {
+function App() {
   return (
-  // {// <NavigationContainer styles>
-   // <Stack.Navigator screenOptions={{ headerShown: false}}>
-     // <Stack.Screen name="TelaDeLogin" component={TelaDeLogin} />
-    //  <Stack.Screen name="TelaDeCadastro" component={TelaDeCadastro} />
-    //  <Stack.Screen name="TelaPrincipal" component={TelaPrincipal}/>
-   // </Stack.Navigator>
- // </NavigationContainer>/}
-<CadastroAnimal/>
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="TelaDeLogin" component={TelaDeLogin} />
+        <Stack.Screen name="TelaDeCadastro" component={TelaDeCadastro} />
+        <Stack.Screen name="TelaPrincipalNavigator" component={TelaPrincipalNavigator} />
+        <Stack.Screen name="TelaPet" component={TelaPet} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
-};
+}
 
 export default App;
-

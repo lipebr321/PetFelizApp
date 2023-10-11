@@ -29,11 +29,11 @@ const TelaDeLogin = ({ navigation }) => {
     setIsLoading(true);
   
     try {
-      const response = await axios.post('https://localhost:7237/api/teste', data);
+      const response = await axios.post('https://localhost:44302/api/Login', data);
   
       if (response.status === 200) {
        
-        navigation.navigate('TelaPrincipal');
+        navigation.navigate('TelaPrincipalNavigator');
 
       } else {
      
@@ -73,7 +73,7 @@ const TelaDeLogin = ({ navigation }) => {
             style={styles.input}
             onChangeText={onChange}
             onBlur={onBlur}
-            value={value}
+            value={value || ''}
             placeholder="Digite seu email:"
           />
         )}

@@ -1,14 +1,14 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 
-function TelaPrincipal() {
+function TelaPet () {
 
 
   return (
     <View>
-      <Text>Tela Principal</Text>
+      <Text>Pet</Text>
     </View>
   );
 }
 
-export default TelaPrincipal;
+export default TelaPet;
