@@ -17,54 +17,76 @@ const MenuUsuario = ({ navigation }) => {
           navigation.navigate('PerfilUsuario');
         }}
       >
-        <Text style={styles.menuItem}>Meu perfil</Text>
+        <View style={styles.menuItemContainer}>
+          <Image source={require('/src/Components/images/pata.png')} style={styles.menuIcon} />
+          <Text style={styles.menuItem}>Meu perfil</Text>
+        </View>
+
       </TouchableOpacity>
+
       <TouchableOpacity
         onPress={() => {
           navigation.navigate('PetsUsuario');
         }}
       >
-        <Text style={styles.menuItem}>Meus Pets</Text>
+          <View style={styles.menuItemContainer}>
+          <Image source={require('/src/Components/images/cachorro.png')} style={styles.menuIcon} />
+          <Text style={styles.menuItem}>Meus pets</Text>
+        </View>
       </TouchableOpacity>
+
       <TouchableOpacity
         onPress={() => {
           navigation.navigate('TelaPrincipal');
         }}
       >
-        <Text style={styles.menuItem}>Adotar Pets</Text>
+          <View style={styles.menuItemContainer}>
+          <Image source={require('/src/Components/images/gato.png')} style={styles.menuIcon} />
+          <Text style={styles.menuItem}>Adotar Pet</Text>
+        </View>
       </TouchableOpacity>
-      <TouchableOpacity
-        onPress={() => {
-          navigation.navigate('SobreNos');
-        }}
-      >
+
         <TouchableOpacity
         onPress={() => {
           navigation.navigate('CadastroAnimal');
         }}
       >
-        <Text style={styles.menuItem}>Doar Pet</Text>
+          <View style={styles.menuItemContainer}>
+          <Image source={require('/src/Components/images/ossinho.png')} style={styles.menuIcon} />
+          <Text style={styles.menuItem}>Cadastrar pet</Text>
+        </View>
       </TouchableOpacity>
+
       <TouchableOpacity
         onPress={() => {
           navigation.navigate('SobreNos');
         }}
-      ></TouchableOpacity>
-        <Text style={styles.menuItem}>Sobre Nós</Text>
+      >
+          <View style={styles.menuItemContainer}>
+          <Image source={require('/src/Components/images/sobre.png')} style={styles.menuIcon} />
+          <Text style={styles.menuItem}>Sobre nós</Text>
+        </View>
       </TouchableOpacity>
+
       <TouchableOpacity
         onPress={() => {
           navigation.navigate('FAQ');
         }}
       >
-        <Text style={styles.menuItem}>Dúvidas</Text>
+          <View style={styles.menuItemContainer}>
+          <Image source={require('/src/Components/images/ajuda.png')} style={styles.menuIcon} />
+          <Text style={styles.menuItem}>Duvidas?</Text>
+        </View>
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
           navigation.navigate('TelaConfig');
         }}
       >
-        <Text style={styles.menuItem}>Configurações</Text>
+          <View style={styles.menuItemContainer}>
+          <Image source={require('/src/Components/images/config.png')} style={styles.menuIcon} />
+          <Text style={styles.menuItem}>Configurações</Text>
+        </View>
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
@@ -72,7 +94,10 @@ const MenuUsuario = ({ navigation }) => {
           // Por exemplo, deslogar o usuário
         }}
       >
-        <Text style={styles.menuItem}>Sair</Text>
+        <View style={styles.menuItemContainer}>
+          <Image source={require('/src/Components/images/sair.png')} style={styles.menuIcon} />
+          <Text style={styles.menuItem}>Sair</Text>
+        </View>
       </TouchableOpacity>
     </View>
   );
@@ -83,11 +108,13 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     backgroundColor: '#fff',
+    justifyContent: 'center',
+    backgroundColor: '#F9C200',
   },
   userInfoContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: 30,
   },
   userImage: {
     width: 50,
@@ -98,11 +125,22 @@ const styles = StyleSheet.create({
   userName: {
     fontSize: 18,
   },
+  menuItemContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 30,
+  },
+  menuIcon: {
+    width: 30,
+    height: 30,
+    marginRight: 10,
+  },
   menuItem: {
     fontSize: 18,
     padding: 10,
+    color:'white',
+    
   },
 });
 
 export default MenuUsuario;
-

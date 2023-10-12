@@ -1,14 +1,23 @@
-import React from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
-
-function TelaPrincipal() {
+import { StyleSheet, ScrollView} from 'react-native';
+import PetList from '../../Components/AnimalCard/AnimalCard';
 
 
+export default function TelaPrincipal() {
   return (
-    <View>
-      <Text>Tela Principal</Text>
-    </View>
+    <ScrollView
+      contentContainerStyle={styles.container}
+      keyboardShouldPersistTaps="handled"
+    >
+      <PetList/>
+    </ScrollView>
   );
 }
 
-export default TelaPrincipal;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
