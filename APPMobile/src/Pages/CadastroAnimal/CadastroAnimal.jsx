@@ -133,7 +133,7 @@ const CadastroAnimal = () => {
       </Picker>
 
       <View>
-        <Checkbox label="Vermifugado" onChange={(isChecked) => setFormData({ ...formData, vermifugado: isChecked })} />
+        <Checkbox label="Vermificado" onChange={(isChecked) => setFormData({ ...formData, vermifugado: isChecked })} />
         <Checkbox label="Castrado" onChange={(isChecked) => setFormData({ ...formData, castrado: isChecked })} />
         <Checkbox label="Vacinado" onChange={(isChecked) => setFormData({ ...formData, vacinado: isChecked })} />
       </View>

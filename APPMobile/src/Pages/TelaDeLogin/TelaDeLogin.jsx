@@ -5,6 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import axios from 'axios';
 import logo from '/src/Components/images/LogoGrande.png'
+import Footer from '../../Components/Footer/Footer';
 
 
 const schema = yup.object({
@@ -109,6 +110,7 @@ const TelaDeLogin = ({ navigation }) => {
 
       <Text style={styles.link} onPress={() => navigation.navigate('TelaDeCadastro')}>Cadastre-se</Text>
       <Text style={styles.link} onPress={() => navigation.navigate('#')}>Esqueceu sua senha?</Text>
+      <Footer/>
     </View>
   );
 };
@@ -123,7 +125,7 @@ const styles = StyleSheet.create({
   logo: {
     width: 120,
     height: 120,
-    marginBottom: 125,
+    marginBottom: 100,
     marginTop: 15,
   },
   input: {
@@ -147,7 +149,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.4,
     shadowRadius: 4,
     elevation: 4,
-    marginTop: 70,
+    marginTop: 30,
     paddingVertical: 10,
   },
   textLogar: {
@@ -158,7 +160,7 @@ const styles = StyleSheet.create({
   },
   link: {
     fontSize: 20,
-    marginTop: 30,
+    marginTop: 20,
   },
   labelError: {
     fontSize: 16,
