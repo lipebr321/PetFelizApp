@@ -1,149 +1,177 @@
-import React, { useState } from 'react';
-import { Text, TextInput, StyleSheet, TouchableOpacity, ScrollView, Alert, Picker, View, SafeAreaView } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import {View, Text, TextInput, TouchableOpacity, ScrollView,  Alert, StyleSheet,  Image, Picker, Button,} from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
-import * as yup from 'yup';
-import Checkbox from '../../Components/CheckBoxAnimal/CheckBoxAnimal';
 
 const CadastroAnimal = () => {
-  const [formData, setFormData] = useState({
-    nome: '',
-    cpf: '',
-    email: '',
-    telefone: '',
-    senha: '',
-    confirmarSenha: '',
-    cep: '',
-    nomeLog: '',
-    numero: '',
+  const [Pet, setPet] = useState({
+    Nome_Pet: '',
+    Sexo_Pet: 'Selecione o Sexo',
+    Descricao_Pet: '',
+    Idade_Pet: 'Selecione a Idade',
+    Porte_Pet: 'Selecione o Porte',
+    Status_Pet: 'Selecione uma opção',
+    Castrado: 'Disponivel',
+    Nome_Foto: '',
+    Base64: null,
+    Especie: 'Selecione a espécie',
+    Raca: 'Selecione a raça',
   });
 
   const [errors, setErrors] = useState({});
-  const [selectedPorte, setSelectedPorte] = useState('Selecione o Porte');
-  const [selectedIdade, setSelectedIdade] = useState('Selecione a Idade');
-  const [selectedSexo, setSelectedSexo] = useState('Selecione o Sexo');
-  const [selectedEspecie, setSelectedEspecie] = useState('Selecione a especie');
+  const [base64, setBase64] = useState(null);
 
-  const idades = ['Entre 0 e 1', 'Entre 1 e 4', 'Entre 4 e 10', 'Mais de 10'];
-  const portes = ['Pequeno Porte', 'Médio Porte', 'Grande Porte'];
-  const sexos = ['M', 'F'];
-  const especies = ['Gato', 'Cachorro'];
+  const Idade_Pet = ['Entre 0 e 1', 'Entre 1 e 4', 'Entre 4 e 10', 'Mais de 10'];
+  const Porte_Pet = ['Pequeno Porte', 'Médio Porte', 'Grande Porte'];
+  const Sexo_Pet = ['M', 'F'];
+  const Especie = ['Cachorro', 'Gato'];
 
-  // Função para validar o formulário
+  useEffect(() => {
+
+    (async () => {
+      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+      if (status !== 'granted') {
+        Alert.alert('Desculpe, precisamos de permissão para acessar sua galeria de imagens.');
+      }
+
+    })();
+  }, []);
+
+
   const validateForm = async () => {
-    try {
-      const schema = yup.object().shape({
-        nomeAnimal: yup.string().required('Informe o nome'),
-        raca: yup.string().required('Informe o CPF'),
-      });
+    return {};
+  };
 
-      await schema.validate(formData, { abortEarly: false });
-      return {};
-    } catch (validationErrors) {
-      const errors = {};
-      validationErrors.inner.forEach((error) => {
-        errors[error.path] = error.message;
+  const selecionarImagem = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+      const formData = new FormData();
+      formData.append('file', {
+        uri: result.uri,
+        name: 'file',
+        type: 'image/jpeg',
       });
-      return errors;
+      setPet({ ...Pet, Base64: formData });
+      setBase64(result.uri);
     }
   };
 
-  // Função para lidar com o envio do formulário
   const handleSubmit = async () => {
     const validationErrors = await validateForm();
     setErrors(validationErrors);
 
-    if (Object.keys(validationErrors).length === 0) {
-      try {
-        const response = await axios.post('https://localhost:44302/api/Usuario/cadastrarUsuario', formData);
+    if (Pet.Base64) {
+      if (Object.keys(validationErrors).length === 0) {
+        try {
+          const response = await axios.post('https://localhost:44302/api/PetFeliz/CadastrarPet', Pet, {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          });
 
-        if (response.status === 200) {
-          Alert.alert('Cadastro realizado com sucesso');
-        } else {
-          Alert.alert('Erro', 'Ocorreu um erro durante o cadastro');
+          if (response.status === 200) {
+            alert('Cadastro realizado com sucesso');
+          }
+        } catch (error) {
+          console.error('Erro ao fazer a solicitação:', error);
+          alert('teste');
         }
-      } catch (error) {
-        console.error('Erro ao fazer a solicitação:', error);
-        Alert.alert('Erro', 'Ocorreu um erro ao fazer a solicitação à API');
       }
     }
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
-      <Text style={styles.topo}>Informações do Pet</Text>
+    <ScrollView contentContainerStyle={styles.container}>
+      <View style={styles.form}>
+        <Text style={styles.cadastroTitle}>Informações do Pet</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Nome do animal"
+          onChangeText={(text) => setPet({ ...Pet, Nome_Pet: text })}
+          value={Pet.Nome_Pet}
+        />
+        {errors.Nome_Pet && <Text style={styles.labelError}>{errors.Nome_Pet}</Text>}
 
-      <TextInput
-        style={styles.input}
-        placeholder="Nome do animal:"
-        onChangeText={(text) => setFormData({ ...formData, nome: text })}
-        value={formData.nome}
-      />
-      {errors.nome && <Text style={styles.labelError}>{errors.nome}</Text>}
+        <TextInput
+          style={styles.input}
+          placeholder="Descrição do animal"
+          onChangeText={(text) => setPet({ ...Pet, Descricao_Pet: text })}
+          value={Pet.Descricao_Pet}
+        />
 
-      <TextInput
-        style={styles.input}
-        placeholder="Raça:"
-        onChangeText={(text) => setFormData({ ...formData, raca: text })}
-        value={formData.raca}
-      />
-      {errors.cpf && <Text style={styles.labelError}>{errors.cpf}</Text>}
+        <View style={styles.imageContainer}>
+          <Button title="Selecione a imagem" onPress={selecionarImagem} />
+          {base64 && <Image source={{ uri: base64 }} style={styles.image} />}
+        </View>
 
-      <Picker
-        selectedValue={selectedEspecie}
-        onValueChange={(itemValue) => setSelectedEspecie(itemValue)}
-        style={styles.dropdown}
-      >
-        <Picker.Item label="Especie do animal" value="Selecione a especie" />
-        {especies.map((option) => (
-          <Picker.Item label={option} value={option} key={option} />
-        ))}
-      </Picker>
+        <Picker
+          selectedValue={Pet.Especie}
+          onValueChange={(itemValue) => setPet({ ...Pet, Especie: itemValue })}
+          style={styles.dropdown}
+        >
+          <Picker.Item label="Espécie do animal" value="Selecione a espécie" />
+          {Especie.map((option) => (
+            <Picker.Item label={option} value={option} key={option} />
+          ))}
+        </Picker>
 
-      <Picker
-        selectedValue={selectedPorte}
-        onValueChange={(itemValue) => setSelectedPorte(itemValue)}
-        style={styles.dropdown}
-      >
-        <Picker.Item label="Porte do animal" value="Selecione o Porte" />
-        {portes.map((option) => (
-          <Picker.Item label={option} value={option} key={option} />
-        ))}
-      </Picker>
+        <Picker
+          selectedValue={Pet.Porte_Pet}
+          onValueChange={(itemValue) => setPet({ ...Pet, Porte_Pet: itemValue })}
+          style={styles.dropdown}
+        >
+          <Picker.Item label="Porte do animal" value="Selecione o Porte" />
+          {Porte_Pet.map((option) => (
+            <Picker.Item label={option} value={option} key={option} />
+          ))}
+        </Picker>
 
-      <Picker
-        selectedValue={selectedIdade}
-        onValueChange={(itemValue) => setSelectedIdade(itemValue)}
-        style={styles.dropdown}
-      >
-        <Picker.Item label="Idade do animal" value="Selecione a Idade" />
-        {idades.map((option) => (
-          <Picker.Item label={option} value={option} key={option} />
-        ))}
-      </Picker>
+        <Picker
+          selectedValue={Pet.Idade_Pet}
+          onValueChange={(itemValue) => setPet({ ...Pet, Idade_Pet: itemValue })}
+          style={styles.dropdown}
+        >
+          <Picker.Item label="Idade do animal" value="Selecione a Idade" />
+          {Idade_Pet.map((option) => (
+            <Picker.Item label={option} value={option} key={option} />
+          ))}
+        </Picker>
 
-      <Picker
-        selectedValue={selectedSexo}
-        onValueChange={(itemValue) => setSelectedSexo(itemValue)}
-        style={styles.dropdown}
-      >
-        <Picker.Item label="Sexo do animal" value="Selecione o Sexo" />
-        {sexos.map((option) => (
-          <Picker.Item label={option} value={option} key={option} />
-        ))}
-      </Picker>
+        <Picker
+          selectedValue={Pet.Sexo_Pet}
+          onValueChange={(itemValue) => setPet({ ...Pet, Sexo_Pet: itemValue })}
+          style={styles.dropdown}
+        >
+          <Picker.Item label="Sexo do animal" value="Selecione o Sexo" />
+          {Sexo_Pet.map((option) => (
+            <Picker.Item label={option} value={option} key={option} />
+          ))}
+        </Picker>
 
-      <View>
-        <Checkbox label="Vermificado" onChange={(isChecked) => setFormData({ ...formData, vermifugado: isChecked })} />
-        <Checkbox label="Castrado" onChange={(isChecked) => setFormData({ ...formData, castrado: isChecked })} />
-        <Checkbox label="Vacinado" onChange={(isChecked) => setFormData({ ...formData, vacinado: isChecked })} />
+        <Picker
+          selectedValue={Pet.Castrado}
+          onValueChange={(itemValue) => setPet({ ...Pet, Castrado: itemValue })}
+          style={styles.dropdown}
+        >
+          <Picker.Item label="Castrado" value="Selecione a opção" />
+          <Picker.Item label="Sim" value="Sim" />
+          <Picker.Item label="Não" value="Não" />
+        </Picker>
+
+        <TouchableOpacity style={styles.cadastrarButton} onPress={handleSubmit}>
+          <Text style={styles.textCadastrar}>CADASTRAR</Text>
+        </TouchableOpacity>
       </View>
-
-      <TouchableOpacity style={styles.cadastrar} onPress={handleSubmit}>
-        <Text style={styles.textCadastrar}>Cadastrar pet</Text>
-      </TouchableOpacity>
     </ScrollView>
   );
 };
+
+
 
 const styles = StyleSheet.create({
   container: {
@@ -152,12 +180,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 16,
   },
-  topo: {
-    marginBottom: 20,
-    marginTop: 20,
-    fontSize: 30,
+  form: {
+    flex: 1,
     alignItems: 'center',
+  },
+  cadastroTitle: {
+    fontSize: 24,
     fontWeight: 'bold',
+    marginBottom: 20,
   },
   input: {
     width: 350,
@@ -169,7 +199,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     fontSize: 20,
   },
-  cadastrar: {
+  cadastrarButton: {
     backgroundColor: '#F9C200',
     borderRadius: 10,
     width: 300,
@@ -180,7 +210,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.4,
     shadowRadius: 4,
     elevation: 4,
-    marginTop: 70,
+    marginTop: 30,
     paddingVertical: 10,
   },
   textCadastrar: {
@@ -194,14 +224,24 @@ const styles = StyleSheet.create({
     color: '#ff375b',
     marginBottom: 2,
   },
-  dropdown: {
-    width: 350,
-    height: 70,
-    borderColor: 'gray',
-    borderWidth: 1,
+  imagemButton: {
+    backgroundColor: 'lightblue',
     borderRadius: 10,
-    marginBottom: 20,
-    paddingLeft: 10,
+    width: 200,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 20,
+  },
+  textImagem: {
+    color: 'black',
+    textAlign: 'center',
+  },
+  imagemSelecionada: {
+    width: 200,
+    height: 200,
+    borderRadius: 10,
+    marginTop: 20,
   },
 });
 

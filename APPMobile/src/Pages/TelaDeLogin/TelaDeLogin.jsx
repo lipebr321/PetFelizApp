@@ -1,132 +1,113 @@
 import React, { useState } from 'react';
-import {View, Text, TextInput, Button, Image, StyleSheet, TouchableOpacity, ActivityIndicator, Alert,} from 'react-native';
-import { useForm, Controller } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image, Alert } from 'react-native';
 import axios from 'axios';
-import logo from '/src/Components/images/LogoGrande.png'
+import logo from '../../Components/images/LogoGrande.png';
 import Footer from '../../Components/Footer/Footer';
 
-
-const schema = yup.object({
-  
-  email: yup.string().email('Formato de email inválido').required('Informe seu email'),
-
-  senha: yup.string().required('Informe sua senha'),
-});
-
-
-const TelaDeLogin = ({ navigation }) => {
-
-  const [isLoading, setIsLoading] = useState(false);
-
-  const { control, handleSubmit, formState: { errors } } = useForm({
-    resolver: yupResolver(schema),
+function TelaDeLogin ({ navigation }) {
+  const [usuario, setUsuario] = useState({
+    CPF: '',
+    Nome: '',
+    Email: '',
+    Telefone: '',
+    Senha: '',
+    Logradouro: {
+      CEP: '',
+      NomeLog: '',
+      Numero: '',
+    },
   });
 
+  const [mensagem, setMensagem] = useState('');
+  const [errors, setErrors] = useState({
+    email: '',
+    senha: '',
+  });
 
+  const handleInputChange = (text, field) => {
+    setUsuario((prevUsuario) => ({
+      ...prevUsuario,
+      [field]: text,
+    }));
+    setErrors({ ...errors, [field]: '' }); // Limpar os erros ao digitar
+  };
 
-  async function logar(data) {
-    setIsLoading(true);
-  
+  const handleLogin = async () => {
     try {
-      const response = await axios.post('https://localhost:44302/api/Login', data);
-  
-      if (response.status === 200) {
-       
-        navigation.navigate('TelaPrincipalNavigator');
-
-      } else {
-     
-        if (response.status === 401) {
-
-          Alert.alert('Erro', 'Credenciais incorretas');
-
-        } else {
-       
-          Alert.alert('Erro', 'Ocorreu um erro inesperado na API');
-        }
+      if (!usuario.Email || !usuario.Senha) {
+        setMensagem('Preencha ambos os campos.');
+        setErrors({
+          email: !usuario.Email ? 'Campo obrigatório' : '',
+          senha: !usuario.Senha ? 'Campo obrigatório' : '',
+        });
+        return;
       }
-  
-      setIsLoading(false);
-
+      const response = await axios.post("https://petfeliz.azurewebsites.net/api/Usuario/Login", usuario);
+      if (response.status === 200) {
+        navigation.navigate('TelaPrincipalNavigator');
+      } else {
+        setMensagem('Usuário ou senha incorretos.');
+      }
     } catch (error) {
-
-      console.error('Erro ao fazer a solicitação:', error);
-
-      Alert.alert('Erro', 'Ocorreu um erro ao fazer a solicitação à API');
-
-      setIsLoading(false);
+      console.error('Erro no login:', error);
+      setMensagem('Erro no servidor.');
     }
-  }
-  
+  };
 
   return (
     <View style={styles.container}>
+      <View style={styles.imgContainer}>
+        <Image source={logo} style={styles.img} />
+      </View>
+      <View style={styles.formContainer}>
+        <TextInput
+          style={styles.input}
+          placeholder="E-mail"
+          value={usuario.Email}
+          onChangeText={(text) => handleInputChange(text, 'Email')}
+        />
+        <Text style={styles.errorText}>{errors.email}</Text>
 
-      <Image source={logo} style={styles.logo}/>
-    
-      <Controller
-        control={control}
-        name="email"
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            style={styles.input}
-            onChangeText={onChange}
-            onBlur={onBlur}
-            value={value || ''}
-            placeholder="Digite seu email:"
-          />
-        )}
-      />
-      {errors.email && <Text style={styles.labelError}>{errors.email?.message}</Text>}
-
-      <Controller
-        control={control}
-        name="senha"
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            style={styles.input}
-            onChangeText={onChange}
-            onBlur={onBlur}
-            value={value}
-            placeholder="Digite sua senha:"
-            secureTextEntry={true}
-          />
-        )}
-      />
-      {errors.senha && <Text style={styles.labelError}>{errors.senha?.message}</Text>}
-
-      {isLoading ? (
-        <ActivityIndicator size="large" color="#F9C200" style={{ marginTop: 20 }} />
-      ) : (
-        <TouchableOpacity
-          style={styles.logar}
-          onPress={handleSubmit(logar)}
-        >
-          <Text style={styles.textLogar}>Entrar</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Senha"
+          secureTextEntry={true}
+          value={usuario.Senha}
+          onChangeText={(text) => handleInputChange(text, 'Senha')}
+        />
+        <Text style={styles.errorText}>{errors.senha}</Text>
+        <Text style={styles.errorMessage}>{mensagem}</Text>
+        <TouchableOpacity style={styles.button} onPress={handleLogin}>
+          <Text style={styles.buttonText}>ENTRAR</Text>
         </TouchableOpacity>
-      )}
-
-      <Text style={styles.link} onPress={() => navigation.navigate('TelaDeCadastro')}>Cadastre-se</Text>
-      <Text style={styles.link} onPress={() => navigation.navigate('#')}>Esqueceu sua senha?</Text>
+        <Text style={styles.link} onPress={() => navigation.navigate('TelaDeCadastro')}>Cadastre-se</Text>
+      <Text style={styles.link} onPress={() => navigation.navigate('#')}>Esqueceu sua Senha?</Text>
+      </View>
+      <View>
       <Footer/>
+      </View>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'white'
+    backgroundColor: 'white',
   },
-  logo: {
-    width: 120,
-    height: 120,
-    marginBottom: 100,
-    marginTop: 15,
+  imgContainer: {
+    alignItems:'center',
+  },
+  img: {
+    width: 150,
+    height: 150,
+    marginBottom: 70,
+    marginTop: 30,
+  },
+  formContainer: {
+    flex: 2,
+    alignItems: 'center',
   },
   input: {
     width: 350,
@@ -137,8 +118,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
     fontSize: 20,
+
   },
-  logar: {
+  button: {
     backgroundColor: '#F9C200',
     borderRadius: 10,
     width: 300,
@@ -152,7 +134,7 @@ const styles = StyleSheet.create({
     marginTop: 30,
     paddingVertical: 10,
   },
-  textLogar: {
+  buttonText: {
     color: 'white',
     textAlign: 'center',
     fontSize: 30,
@@ -162,10 +144,12 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginTop: 20,
   },
-  labelError: {
-    fontSize: 16,
-    color: '#ff375b',
-    marginBottom: 2,
+  errorMessage: {
+    color: 'red',
+    marginBottom: 10,
+  },
+  errorText: {
+    color: 'red',
   },
 });
 

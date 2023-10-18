@@ -13,7 +13,7 @@ const TelaPrincipal = ({ navigation }) => {
 
   async function fetchPetsFromAPI() {
     try {
-      const response = await axios.get("https://localhost:44302/api/PetFeliz/listarpet");
+      const response = await axios.get("https://petfeliz.azurewebsites.net/api/PetFeliz/listarpet");
       setPets(response.data);
       setLoading(false);
     } catch (error) {

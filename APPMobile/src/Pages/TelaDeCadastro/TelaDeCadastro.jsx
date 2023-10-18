@@ -1,203 +1,145 @@
-import React from 'react';
-import { SafeAreaView, Text, TextInput, StyleSheet, TouchableOpacity, ScrollView, Alert } from 'react-native';
-import { useForm, Controller } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
+import React, { useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity, ScrollView, Alert, Modal, StyleSheet } from 'react-native';
 import axios from 'axios';
 
-const schema = yup.object().shape({
-    cpf: yup.string().required('Informe o CPF'),
-    nome: yup.string().required('Informe o nome'),
-    email: yup.string().required('Informe o email').email('Email inválido'),
-    telefone: yup.string().required('Informe o telefone'),
-    senha: yup.string().required('Informe a senha'),
-    confirmarSenha: yup
-      .string()
-      .oneOf([yup.ref('senha'), null], 'As senhas devem coincidir')
-      .required('Confirme a senha'),
-      
-    logradouro: yup.object().shape({
-      cep: yup.string().required('Informe o CEP'),
-      nomeLog: yup.string().required('Informe o endereço'),
-      numero: yup.string().required('Informe o número'),
-    }),
-  });
-  
-
-const TelaDeCadastro = () => {
-  const { control, handleSubmit, formState: { errors } } = useForm({
-    resolver: yupResolver(schema),
+const TelaDeCadastro = ({ navigation }) => {
+  const [usuario, setUsuario] = useState({
+    CPF: '',
+    Nome: '',
+    Email: '',
+    Telefone: '',
+    Senha: '',
+    Logradouro: {
+      CEP: '',
+      NomeLog: '',
+      Numero: '',
+    },
   });
 
-  const cadastrar = async (Formdata) => {
+  const [cadastroSucesso, setCadastroSucesso] = useState(false);
+
+  const handleInputChange = (text, field) => {
+    setUsuario((prevUsuario) => ({
+      ...prevUsuario,
+      [field]: text,
+    }));
+  };
+
+  const handleLogradouroInputChange = (text, field) => {
+    setUsuario((prevUsuario) => ({
+      ...prevUsuario,
+      Logradouro: {
+        ...prevUsuario.Logradouro,
+        [field]: text,
+      },
+    }));
+  };
+
+  const handleSubmit = async () => {
     try {
-      const response = await axios.post('https://localhost:44302/api/Usuario/cadastrarUsuario', Formdata);
-
-      if (response.status === 200) {
-        Alert.alert('Cadastro realizado com sucesso');
-      } else {
-        Alert.alert('Erro', 'Ocorreu um erro durante o cadastro');
+      if (!usuario.Nome || !usuario.CPF || !usuario.Email || !usuario.Telefone || !usuario.Senha || !usuario.Logradouro.CEP || !usuario.Logradouro.NomeLog || !usuario.Logradouro.Numero) {
+        Alert.alert('Preencha todos os campos');
+        return;
       }
+
+      const response = await axios.post("https://petfeliz.azurewebsites.net/api/Usuario/cadastrarUsuario", usuario);
+      console.log('Cadastro bem-sucedido:', response.data);
+
+      setCadastroSucesso(true);
     } catch (error) {
-      console.error('Erro ao fazer a solicitação:', error);
-      Alert.alert('Erro', 'Ocorreu um erro ao fazer a solicitação à API');
+      console.error('Erro no cadastro:', error);
+      Alert.alert('Erro', 'Ocorreu um erro durante o cadastro');
     }
   };
 
+  const handleOK = () => {
+    setCadastroSucesso(false);
+    navigation.navigate('TelaDeLogin');
+  };
+
   return (
-    <ScrollView
-      contentContainerStyle={styles.container}
-      keyboardShouldPersistTaps="handled"
-    >
+    <ScrollView contentContainerStyle={styles.container} 
+    keyboardShouldPersistTaps="handled"
+    pagingEnabled={true}
+    showsVerticalScrollIndicator={false}>
 
-      <Text style={styles.topo}>Faça seu cadastro!</Text>
-   
-      <Controller
-        control={control}
-        name="nome"
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            style={styles.input}
-            placeholder="Nome:"
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-          />
-        )}
-      />
-      {errors.nome && <Text style={styles.labelError}>{errorsnome.message}</Text>}
+      <View style={styles.cadastroForm}>
+        <Text style={styles.cadastroTitle}>Faça seu Cadastro!</Text>
 
-      <Controller
-        control={control}
-        name="cpf"
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            style={styles.input}
-            placeholder="CPF:"
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-          />
-        )}
-      />
-      {errors.cpf && <Text style={styles.labelError}>{errors.cpf.message}</Text>}
+        <TextInput
+          placeholder="Nome"
+          value={usuario.Nome}
+          onChangeText={(text) => handleInputChange(text, 'Nome')}
+        />
 
-      <Controller
-        control={control}
-        name="email"
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            style={styles.input}
-            placeholder="Digite seu email:"
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-          />
-        )}
-      />
-      {errors.email && <Text style={styles.labelError}>{errors.email.message}</Text>}
+        <TextInput
+          placeholder="CPF"
+          value={usuario.CPF}
+          onChangeText={(text) => handleInputChange(text, 'CPF')}
+        />
 
-      <Controller
-  control={control}
-  name="senha"
-  render={({ field: { onChange, onBlur, value } }) => (
-    <TextInput
-      style={[styles.input, errors.senha && styles.inputError]}
-      placeholder="Senha:"
-      onBlur={onBlur}
-      onChangeText={onChange}
-      value={value}
-      secureTextEntry={true}
-    />
-  )}
-/>
-{errors.senha && <Text style={styles.labelError}>{errors.senha.message}</Text>}
+        <TextInput
+          placeholder="Digite seu email"
+          value={usuario.Email}
+          onChangeText={(text) => handleInputChange(text, 'Email')}
+        />
 
-<Controller
-  control={control}
-  name="confirmarSenha"
-  render={({ field: { onChange, onBlur, value } }) => (
-    <TextInput
-      style={[styles.input, errors.confirmarSenha && styles.inputError]}
-      placeholder="Confirmar senha:"
-      onBlur={onBlur}
-      onChangeText={onChange}
-      value={value}
-      secureTextEntry={true}
-    />
-  )}
-/>
-{errors.confirmarSenha && (
-  <Text style={styles.labelError}>{errors.confirmarSenha.message}</Text>
-)}
+        <TextInput
+          placeholder="Telefone"
+          value={usuario.Telefone}
+          onChangeText={(text) => handleInputChange(text, 'Telefone')}
+        />
 
-      <Controller
-        control={control}
-        name="telefone"
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            style={styles.input}
-            placeholder="Telefone:"
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-          />
-        )}
-      />
-      {errors.telefone && <Text style={styles.labelError}>{errors.telefone.message}</Text>}
- 
-      <Controller
-        control={control}
-        name="cep"
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            style={styles.input}
-            placeholder="CEP:"
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-          />
-        )}
-      />
-      {errors.cep && <Text style={styles.labelError}>{errors.cep.message}</Text>}
+        <TextInput
+          placeholder="Senha"
+          secureTextEntry={true}
+          value={usuario.Senha}
+          onChangeText={(text) => handleInputChange(text, 'Senha')}
+        />
 
-      <Controller
-        control={control}
-        name="nomeLog"
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            style={styles.input}
-            placeholder="Endereço:"
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-          />
-        )}
-      />
-      {errors.nomeLog && <Text style={styles.labelError}>{errors.nomeLog.message}</Text>}
+        <TextInput
+          placeholder="CEP"
+          value={usuario.Logradouro.CEP}
+          onChangeText={(text) => handleLogradouroInputChange(text, 'CEP')}
+        />
 
-      <Controller
-        control={control}
-        name="numero"
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            style={styles.input}
-            placeholder="Numero:"
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-          />
-        )}
-      />
-      {errors.numero && <Text style={styles.labelError}>{errors.numero.message}</Text>}
+        <TextInput
+          placeholder="Endereço"
+          value={usuario.Logradouro.NomeLog}
+          onChangeText={(text) => handleLogradouroInputChange(text, 'NomeLog')}
+        />
 
-      <TouchableOpacity style={styles.cadastrar} onPress={handleSubmit(cadastrar)}>
-        <Text style={styles.textCadastrar}>Cadastrar</Text>
-      </TouchableOpacity>
+        <TextInput
+          placeholder="Número"
+          value={usuario.Logradouro.Numero}
+          onChangeText={(text) => handleLogradouroInputChange(text, 'Numero')}
+        />
 
-      <SafeAreaView style={{ alignItems: 'center' }}>
-        <Text style={{ fontSize: 20, marginTop: 30 }}>Já sou cadastrado!</Text>
-      </SafeAreaView>
+        <TouchableOpacity style={styles.cadastrarButton} onPress={handleSubmit}>
+          <Text style={styles.textCadastrar}>CADASTRAR</Text>
+        </TouchableOpacity>
+      </View>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={cadastroSucesso}
+        onRequestClose={() => {
+          setCadastroSucesso(false);
+        }}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Cadastro realizado com sucesso!</Text>
+            <TouchableOpacity
+              style={styles.okButton}
+              onPress={handleOK}
+            >
+              <Text style={styles.okButtonText}>OK</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </ScrollView>
   );
 };
@@ -208,25 +150,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 16,
+    backgroundColor: 'white',
   },
-  topo: {
-    marginBottom: 20,
-    marginTop: 20,
-    fontSize: 30,
+  cadastroForm: {
+    flex: 2,
     alignItems: 'center',
+  },
+  cadastroTitle: {
+    fontSize: 24,
     fontWeight: 'bold',
-  },
-  input: {
-    width: 350,
-    height: 70,
-    borderColor: 'gray',
     marginBottom: 20,
-    paddingLeft: 10,
-    borderWidth: 1,
-    borderRadius: 10,
-    fontSize: 20,
   },
-  cadastrar: {
+  cadastrarButton: {
     backgroundColor: '#F9C200',
     borderRadius: 10,
     width: 300,
@@ -246,10 +181,36 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: 'bold',
   },
-  labelError: {
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContent: {
+    width: 300,
+    backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  okButton: {
+    backgroundColor: '#F9C200',
+    borderRadius: 10,
+    width: 100,
+    height: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  okButtonText: {
+    color: 'white',
     fontSize: 16,
-    color: '#ff375b',
-    marginBottom: 2,
+    fontWeight: 'bold',
   },
 });
 
