@@ -21,7 +21,6 @@ const MenuUsuario = ({ navigation }) => {
           <Image source={require('/src/Components/images/pata.png')} style={styles.menuIcon} />
           <Text style={styles.menuItem}>Meu perfil</Text>
         </View>
-
       </TouchableOpacity>
 
       <TouchableOpacity
@@ -134,12 +133,13 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     marginRight: 10,
+    // Você pode definir cores específicas para cada ícone aqui
   },
   menuItem: {
     fontSize: 18,
     padding: 10,
-    color:'white',
-    
+    color: 'white', // Cor do texto
+    // Outras estilizações de texto
   },
 });
 

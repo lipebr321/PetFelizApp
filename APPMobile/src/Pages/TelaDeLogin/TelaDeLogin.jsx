@@ -17,6 +17,7 @@ function TelaDeLogin ({ navigation }) {
       Numero: '',
     },
   });
+  
 
   const [mensagem, setMensagem] = useState('');
   const [errors, setErrors] = useState({
@@ -29,7 +30,7 @@ function TelaDeLogin ({ navigation }) {
       ...prevUsuario,
       [field]: text,
     }));
-    setErrors({ ...errors, [field]: '' }); // Limpar os erros ao digitar
+    setErrors({ ...errors, [field]: '' }); 
   };
 
   const handleLogin = async () => {
@@ -42,8 +43,24 @@ function TelaDeLogin ({ navigation }) {
         });
         return;
       }
-      const response = await axios.post("https://petfeliz.azurewebsites.net/api/Usuario/Login", usuario);
+      const response = await axios.post("https://localhost:44302/api/Usuario/Login", usuario);
       if (response.status === 200) {
+        const userData = response.data;
+        setUsuario((prevUsuario) => ({
+          ...prevUsuario,
+          ID: userData.id,
+          Nome: userData.nome,
+          CPF: userData.cpf,
+          Telefone: userData.telefone,
+          Email: userData.email,
+          Senha: userData.senha,
+          CEP : userData.cep,
+          NomeLog : userData.nomeLog,
+          Logradouro : userData.logradouro,
+          
+
+          
+        }));
         navigation.navigate('TelaPrincipalNavigator');
       } else {
         setMensagem('Usuário ou senha incorretos.');
@@ -53,6 +70,8 @@ function TelaDeLogin ({ navigation }) {
       setMensagem('Erro no servidor.');
     }
   };
+  
+  
 
   return (
     <View style={styles.container}>
