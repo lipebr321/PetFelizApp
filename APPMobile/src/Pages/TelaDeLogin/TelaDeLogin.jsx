@@ -134,9 +134,13 @@ const styles = StyleSheet.create({
     borderColor: 'gray',
     marginBottom: 20,
     paddingLeft: 10,
-    borderWidth: 1,
     borderRadius: 10,
     fontSize: 20,
+    shadowColor: "black",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.4,
+    shadowRadius: 4,
+    elevation: 4,
 
   },
   button: {

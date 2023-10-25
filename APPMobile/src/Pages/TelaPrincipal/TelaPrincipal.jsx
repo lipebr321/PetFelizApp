@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-
 import {
   View,
   ActivityIndicator,
@@ -9,14 +8,11 @@ import {
   Image,
   StyleSheet,
 } from "react-native";
-
 import axios from "axios";
 
 const TelaPrincipal = ({ navigation }) => {
   const [loading, setLoading] = useState(true);
-
   const [error, setError] = useState(null);
-
   const [pets, setPets] = useState([]);
 
   useEffect(() => {
@@ -85,74 +81,53 @@ const TelaPrincipal = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-
     backgroundColor: "white",
   },
 
   card: {
-    borderWidth: 1,
-
     borderColor: "gray",
-
     borderRadius: 14,
-
-    padding: 10,
-
     margin: 10,
-
     height: 500,
-
     marginBottom: 70,
-
     marginTop: 50,
-
     shadowColor: "black",
-
     shadowOffset: { width: 0, height: 2 },
-
     shadowOpacity: 0.4,
-
     shadowRadius: 4,
-
     elevation: 4,
   },
 
   image: {
-    width: 320,
-
+    width: 354,
     height: 300,
+    borderRadius: 14,
+
   },
 
   nome: {
     fontSize: 25,
-
     marginTop: 10,
-
     marginLeft: 10,
-
     color: "purple",
   },
 
   loadingContainer: {
     flex: 1,
-
     justifyContent: "center",
-
     alignItems: "center",
   },
 
   errorContainer: {
     flex: 1,
-
     justifyContent: "center",
-
     alignItems: "center",
   },
 
   descricao: {
     fontSize: 16,
-
     marginTop: 20,
+    marginLeft: 10,
   },
 });
 

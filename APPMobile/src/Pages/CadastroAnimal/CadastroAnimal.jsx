@@ -1,49 +1,33 @@
 import React, { useState, useEffect } from "react";
-
 import {
   View,
   Text,
   TextInput,
   TouchableOpacity,
-  ScrollView,
   Alert,
   StyleSheet,
   Image,
   Picker,
-  Button,
 } from "react-native";
-
 import * as ImagePicker from "expo-image-picker";
-
 import axios from "axios";
-
 import Footer from "../../Components/Footer/Footer";
 
 const CadastroAnimal = () => {
   const [Pet, setPet] = useState({
     Nome_Pet: "",
-
     Sexo_Pet: "Selecione o Sexo",
-
     Descricao_Pet: "",
-
     Idade_Pet: "Selecione a Idade",
-
     Porte_Pet: "Selecione o Porte",
-
     Status_Pet: "Selecione uma opção",
-
     Castrado: "Disponivel",
-
     Base64: null,
-
     Especie: "Selecione a espécie",
-
     Raca: "Selecione a raça",
   });
 
   const [errors, setErrors] = useState({});
-
   const [base64, setBase64] = useState(null);
 
   const Idade_Pet = [
@@ -62,7 +46,6 @@ const CadastroAnimal = () => {
   ];
 
   const Sexo_Pet = ["Macho", "Fêmea"];
-
   const Especie = ["Cachorro", "Gato"];
 
   useEffect(() => {
@@ -137,30 +120,21 @@ const CadastroAnimal = () => {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.cadastroTitle}>Informações do Pet</Text>
+    <View style={styles.container}>
+       <View style={styles.balaoAmarelo}>
+        <Text style={styles.titulo}>Informações do pet !</Text>
+      </View>
 
       <View style={styles.form}>
         <TextInput
           style={styles.input}
-          placeholder="Nome do animal"
+          placeholder="Nome do pet"
           onChangeText={(text) => setPet({ ...Pet, Nome_Pet: text })}
           value={Pet.Nome_Pet}
         />
 
         {errors.Nome_Pet && (
           <Text style={styles.labelError}>{errors.Nome_Pet}</Text>
-        )}
-
-        <TextInput
-          style={styles.descricao}
-          placeholder="Descrição do animal"
-          onChangeText={(text) => setPet({ ...Pet, Descricao_Pet: text })}
-          value={Pet.Descricao_Pet}
-        />
-
-        {errors.Descricao_Pet && (
-          <Text style={styles.labelError}>{errors.Descricao_Pet}</Text>
         )}
 
         <Picker
@@ -227,19 +201,36 @@ const CadastroAnimal = () => {
           <Picker.Item label="Não" value="Não" />
         </Picker>
 
-        <View style={styles.imageContainer}>
-          <Button title="Selecione a imagem" onPress={selecionarImagem} />
+        <TextInput
+          style={styles.descricao}
+          placeholder="Descrição do pet"
+          onChangeText={(text) => setPet({ ...Pet, Descricao_Pet: text })}
+          value={Pet.Descricao_Pet}
+        />
 
+        {errors.Descricao_Pet && (
+          <Text style={styles.labelError}>{errors.Descricao_Pet}</Text>
+        )}
+
+<TouchableOpacity
+        onPress={(selecionarImagem)}
+      >
+        <View style={styles.imageContainer}>
+         <Text style={styles.menuItem}>Adcionar foto</Text>
+          <Image source={require('/src/Components/images/camera.png')} style={styles.menuIcon} />
+      
           {base64 && <Image source={{ uri: base64 }} style={styles.image} />}
+    
         </View>
+        </TouchableOpacity>
       </View>
 
       <TouchableOpacity style={styles.cadastrarButton} onPress={handleSubmit}>
-        <Text style={styles.textCadastrar}>CADASTRAR</Text>
+        <Text style={styles.textCadastrar}>Cadastrar</Text>
       </TouchableOpacity>
 
       <Footer />
-    </ScrollView>
+    </View>
   );
 };
 
@@ -257,7 +248,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#F9C200",
     borderRadius: 20,
-    padding: 20,
+    padding: 10,
     width: 350,
     alignItems: "center",
     shadowColor: "black",
@@ -267,44 +258,75 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
 
-  dropdown: {
-    width: 300,
-    marginBottom: 5,
+  balaoAmarelo: {
+    backgroundColor: "#F9C200",
+    padding: 10,
+    alignItems: "center",
+    shadowColor: 'black',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.4,
+    shadowRadius: 4,
+    elevation: 4,
+    width: '100%',
+    height: 70,
+    marginBottom: 30,
+    borderRadius: 60,
+  },
+  titulo: {
+    fontSize: 24,
+
   },
 
-  cadastroTitle: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 20,
+  dropdown: {
+    width: 300,
+    height: 40,
+    marginTop: 5,
+    shadowColor: "black",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.4,
+    shadowRadius: 4,
+    elevation: 4,
+    borderRadius: 4,
   },
 
   input: {
     width: 300,
-    height: 30,
+    height: 50,
     borderColor: "gray",
-    marginBottom: 5,
+    marginTop: 10,
     paddingLeft: 10,
     borderWidth: 1,
     borderRadius: 5,
     fontSize: 14,
+    backgroundColor: 'white',
+    shadowColor: "black",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.4,
+    shadowRadius: 4,
+    elevation: 4,
   },
 
   descricao: {
     width: 300,
-    height: 90,
+    height: 110,
     borderColor: "gray",
-    marginBottom: 10,
+    marginTop: 10,
     paddingLeft: 10,
-    borderWidth: 1,
     borderRadius: 10,
     fontSize: 14,
+    backgroundColor: 'white',
+    shadowColor: "black",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.4,
+    shadowRadius: 4,
+    elevation: 4,
   },
 
   cadastrarButton: {
     backgroundColor: "#F9C200",
     borderRadius: 10,
-    width: 300,
-    height: 70,
+    width: 120,
+    height: 40,
     alignItems: "center",
     shadowColor: "black",
     shadowOffset: { width: 0, height: 2 },
@@ -319,8 +341,7 @@ const styles = StyleSheet.create({
   textCadastrar: {
     color: "white",
     textAlign: "center",
-    fontSize: 30,
-    fontWeight: "bold",
+    fontSize: 16,
   },
 
   labelError: {
@@ -330,8 +351,17 @@ const styles = StyleSheet.create({
   },
 
   imageContainer: {
-    marginLeft: 80,
-    marginTop: 60,
+    marginLeft: 200,
+    marginTop: 20,
+    alignItems:'center'
+  },
+  menuIcon: {
+    width: 30,
+    height: 30,
+  },
+  menuItem: {
+    fontSize: 10,
+    padding: 5,
   },
 });
 

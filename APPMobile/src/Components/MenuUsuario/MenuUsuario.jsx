@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 
 const MenuUsuario = ({ navigation }) => {
   
-  const userImage = require('/src/Components/images/usuario.png');
+  const userImage = require('/src/Components/images/gatinho.png');
   const userName = 'Nome do Usuário';
 
   return (
@@ -123,6 +123,7 @@ const styles = StyleSheet.create({
   },
   userName: {
     fontSize: 18,
+    color:'white'
   },
   menuItemContainer: {
     flexDirection: 'row',

@@ -1,30 +1,74 @@
 import React from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
-import Usuario from '../../Components/images/usuario.png';
-import Footer from '../../Components/Footer/Footer';
+import Usuario from "../../Components/images/gatinho.png";
+import Footer from "../../Components/Footer/Footer";
+import Linha from "../../Components/DivisorDeTela/DivisorDeTela";
 
-const PerfilUsuario = () => {
+const PerfilUsuario = ({ navigation }) => {
   return (
     <View style={styles.container}>
+      <Linha />
+
       <Text style={styles.titulo}>Meu Perfil</Text>
 
       <View style={styles.avatarContainer}>
-        <Image
-          source={Usuario}
-          style={styles.avatar}
-        />
+        <Image source={Usuario} style={styles.avatar} />
+
         <Text style={styles.nomeUsuario}>Nome do Usuário</Text>
       </View>
 
       <View style={styles.menuContainer}>
-        <Text style={styles.menuItem}>Meus Pets</Text>
-        <Text style={styles.menuItem}>Cadastrar Pets</Text>
-        <Text style={styles.menuItem}>Sobre Nós</Text>
-        <Text style={styles.menuItem}>Dúvidas</Text>
-        <Text style={styles.menuItem}>Configurações</Text>
+        <Linha />
+
+        <Text
+          style={styles.menuItem}
+          onPress={() => navigation.navigate("PetsUsuario")}
+        >
+          Meus pets
+        </Text>
+
+        <Linha />
+
+        <Text
+          style={styles.menuItem}
+          onPress={() => navigation.navigate("CadastroAnimal")}
+        >
+          Cadastrar Pets
+        </Text>
+
+        <Linha />
+
+        <Text
+          style={styles.menuItem}
+          onPress={() => navigation.navigate("SobreNos")}
+        >
+          Sobre Nós ?
+        </Text>
+
+        <Linha />
+
+        <Text
+          style={styles.menuItem}
+          onPress={() => navigation.navigate("FAQ")}
+        >
+          Dúvidas
+        </Text>
+
+        <Linha />
+
+        <Text
+          style={styles.menuItem}
+          onPress={() => navigation.navigate("TelaConfig")}
+        >
+          Configurações
+        </Text>
+
+        <Linha />
+
         <Text style={styles.menuItem}>Sair</Text>
       </View>
-      <Footer/>
+
+      <Footer />
     </View>
   );
 };
@@ -35,31 +79,39 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     padding: 20,
   },
+
   titulo: {
-    fontSize: 24,
+    fontSize: 18,
     color: "#F9C200",
   },
+
   avatarContainer: {
     alignItems: "center",
-    marginTop: 20,
+    marginTop: 40,
   },
+
   avatar: {
-    width: 120,
-    height: 120,
+    width: 100,
+    height: 100,
     borderRadius: 60,
   },
+
   nomeUsuario: {
     fontSize: 20,
     marginTop: 10,
     color: "#F9C200",
   },
+
   menuContainer: {
-    marginTop: 30,
+    marginBottom: 70,
+    marginTop: 40,
   },
+
   menuItem: {
-    fontSize: 18,
+    fontSize: 14,
     marginBottom: 25,
     color: "#F9C200",
+    fontWeight: "bold",
   },
 });
 

@@ -15,16 +15,14 @@ const Drawer = createDrawerNavigator();
 const TelaPrincipalNavigator = () => {
   return (
     <Drawer.Navigator
-    initialRouteName="TelaPrincipal"
-    drawerContent={(props) => (
-      <MenuUsuario {...props} />
-    )}
-    screenOptions={{
-      headerStyle: {
-        backgroundColor: '#F9C200',
-      },
-    }}
-  >
+      initialRouteName="TelaPrincipal"
+      drawerContent={(props) => <MenuUsuario {...props} />}
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: "#F9C200",
+        },
+      }}
+    >
       <Drawer.Screen
         name="TelaPrincipal"
         component={TelaPrincipal}
@@ -55,10 +53,7 @@ const TelaPrincipalNavigator = () => {
         options={{ title: null }}
       />
 
-      <Drawer.Screen name="FAQ" 
-      component={FAQ} 
-      options={{ title: null }} 
-      />
+      <Drawer.Screen name="FAQ" component={FAQ} options={{ title: null }} />
 
       <Drawer.Screen
         name="PetsUsuario"
