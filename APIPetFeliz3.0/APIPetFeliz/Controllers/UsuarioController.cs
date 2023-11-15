@@ -45,13 +45,21 @@ namespace APIPetFeliz.Controllers
 
         [HttpGet]
         [Route("listarUsuario")]
-        public IActionResult Listar()
+        public IActionResult Listar(int id)
         {
-
             var dao = new UsuariosDAO();
-            var usuarios = dao.Listar();
-            return Ok(usuarios);
+            var usuario = dao.ListarPorId(id);
+
+            if (usuario != null)
+            {
+                return Ok(usuario);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
+
 
         [HttpGet]
         [Route("Recuperar")]

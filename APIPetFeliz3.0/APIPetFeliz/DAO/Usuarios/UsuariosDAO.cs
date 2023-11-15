@@ -91,7 +91,7 @@ namespace APIPetFeliz.DAO.Usuarios
 
         #region Listar Usuario
 
-        public IEnumerable<UsuariosDTO> Listar()
+        public UsuariosDTO ListarPorId(int id)
         {
             var conexao = ConnectionFactory.Build();
             conexao.Open();
@@ -99,32 +99,15 @@ namespace APIPetFeliz.DAO.Usuarios
             try
             {
                 string query = @"
-                    SELECT * FROM Tb_Usuario u
-                    INNER JOIN tb_logradouro l ON u.cod_log = l.cod_log";
-
-                /* var usuarioDictionary = new Dictionary<int, UsuariosDTO>();
-
-                 var usuarios = conexao.Query<UsuariosDTO, LogradouroDTO, UsuariosDTO>(
-                     query,
-                     (usuario, logradouro) =>
-                     {
-                         if (!usuarioDictionary.TryGetValue(usuario.Id, out UsuariosDTO usuarioEntry))
-                         {
-                             usuarioEntry = usuario;
-                             usuarioEntry.Logradouro = logradouro;
-                             usuarioDictionary.Add(usuario.Id, usuarioEntry);
-                         }
-                         return usuarioEntry;
-                     },
-                     splitOn: "cod_log"
-                 ).AsList();*/
+            SELECT * FROM Tb_Usuario u
+            INNER JOIN tb_logradouro l ON u.cod_log = l.cod_log
+            WHERE u.Cod_Usuario = @Id";
 
                 var comando = new MySqlCommand(query, conexao);
+                comando.Parameters.AddWithValue("@Id", id);
                 var dataReader = comando.ExecuteReader();
 
-                var usuarios = new List<UsuariosDTO>();
-
-                while (dataReader.Read())
+                if (dataReader.Read())
                 {
                     var usuario = new UsuariosDTO();
                     usuario.Id = int.Parse(dataReader["Cod_Usuario"].ToString());
@@ -139,15 +122,14 @@ namespace APIPetFeliz.DAO.Usuarios
                     usuario.Logradouro.NomeLog = dataReader["Nome_Log"].ToString();
                     usuario.Logradouro.Numero = dataReader["Numero_Log"].ToString();
 
-                    usuarios.Add(usuario);
+                    return usuario;
                 }
 
-                return usuarios;
-
+                // Retorna null se o usuário não for encontrado
+                return null;
             }
             catch (Exception)
             {
-
                 throw;
             }
             finally
@@ -155,6 +137,7 @@ namespace APIPetFeliz.DAO.Usuarios
                 conexao.Close();
             }
         }
+
         #endregion
 
         #region Alterar Usuario

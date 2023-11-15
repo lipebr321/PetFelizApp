@@ -1,16 +1,9 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  ScrollView,
-  Alert,
-  Modal,
-  StyleSheet,
-} from "react-native";
+import { View,  Text,  TextInput,
+  TouchableOpacity, Alert,  Modal } from "react-native";
 import axios from "axios";
 import Footer from "../../Components/Footer/Footer";
+import styles from '../../Pages/TelaDeCadastro/styles'
 
 const TelaDeCadastro = ({ navigation }) => {
   const [usuario, setUsuario] = useState({
@@ -24,6 +17,12 @@ const TelaDeCadastro = ({ navigation }) => {
       NomeLog: "",
       Numero: "",
     },
+    Cidade: {
+      Nome_Cidade: "",
+    },
+    Estado: {
+      Nome_Estado: "",
+    }
   });
 
   const [cadastroSucesso, setCadastroSucesso] = useState(false);
@@ -48,6 +47,27 @@ const TelaDeCadastro = ({ navigation }) => {
     }));
   };
 
+  const handleCidadeInputChange = (text, field) => {
+    setUsuario((prevUsuario) => ({
+      ...prevUsuario,
+      Cidade: {
+        ...prevUsuario.Cidade,
+        [field]: text,
+      },
+    }));
+  };
+
+
+  const handleEstadoInputChange = (text, field) => {
+    setUsuario((prevUsuario) => ({
+      ...prevUsuario,
+      Estado: {
+        ...prevUsuario.Estado,
+        [field]: text,
+      },
+    }));
+  };
+
   const handleSubmit = async () => {
     try {
       if (
@@ -58,19 +78,37 @@ const TelaDeCadastro = ({ navigation }) => {
         !usuario.Senha ||
         !usuario.Logradouro.CEP ||
         !usuario.Logradouro.NomeLog ||
-        !usuario.Logradouro.Numero
+        !usuario.Logradouro.Numero||
+        !usuario.Cidade.Nome_Cidade||
+        !usuario.Estado.Nome_Estado
       ) {
         Alert.alert("Preencha todos os campos");
 
         return;
       }
 
-      const response = await axios.post(
-        "https://localhost:44302/api/Usuario/cadastrarUsuario",
-        usuario
-      );
-
+      const response = await axios.post("https://petfeliz.azurewebsites.net/api/Usuario/CadastrarUsuario",
+      usuario);
       console.log("Cadastro bem-sucedido:", response.data);
+
+      setUsuario({
+        CPF: '',
+        Nome: '',
+        Email: '',
+        Telefone: '',
+        Senha: '',
+        Logradouro: {
+          CEP: '',
+          NomeLog: '',
+          Numero: '',
+        },
+        Cidade: {
+          Nome_Cidade: '',
+        },
+        Estado: {
+          Nome_Estado: '',
+        }
+      });
 
       setCadastroSucesso(true);
     } catch (error) {
@@ -136,6 +174,20 @@ const TelaDeCadastro = ({ navigation }) => {
 
         <TextInput
           style={styles.input}
+          placeholder="Estado"
+          value={usuario.Estado.Nome_Estado}
+          onChangeText={(text) => handleEstadoInputChange(text, "Nome_Estado")}
+        />
+
+        <TextInput
+          style={styles.input}
+          placeholder="Cidade"
+          value={usuario.Cidade.Nome_Cidade}
+          onChangeText={(text) => handleCidadeInputChange(text, "Nome_Cidade")}
+        />
+
+        <TextInput
+          style={styles.input}
           placeholder="Endereço"
           value={usuario.Logradouro.NomeLog}
           onChangeText={(text) => handleLogradouroInputChange(text, "NomeLog")}
@@ -186,93 +238,4 @@ const TelaDeCadastro = ({ navigation }) => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 16,
-    backgroundColor: "white",
-  },
-  cadastroForm: {
-    flex: 2,
-    alignItems: "center",
-  },
-  cadastroTitle: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 10,
-  },
-  input: {
-    width: 330,
-    height: 50,
-    borderColor: "gray",
-    marginBottom: 12,
-    paddingLeft: 10,
-    borderRadius: 10,
-    fontSize: 20,
-    shadowColor: "black",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.4,
-    shadowRadius: 4,
-    elevation: 4,
-  },
-  cadastrarButton: {
-    backgroundColor: "#F9C200",
-    borderRadius: 10,
-    width: 300,
-    height: 70,
-    alignItems: "center",
-    shadowColor: "black",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.4,
-    shadowRadius: 4,
-    elevation: 4,
-    paddingVertical: 10,
-    marginBottom: 30,
-  },
-  textCadastrar: {
-    color: "white",
-    textAlign: "center",
-    fontSize: 30,
-    fontWeight: "bold",
-  },
-  modalContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-  },
-  modalContent: {
-    width: 300,
-    backgroundColor: "white",
-    padding: 20,
-    borderRadius: 10,
-    alignItems: "center",
-  },
-  modalTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginBottom: 20,
-  },
-  okButton: {
-    backgroundColor: "#F9C200",
-    borderRadius: 10,
-    width: 100,
-    height: 40,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  okButtonText: {
-    color: "white",
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-  link: {
-    fontSize: 20,
-    marginBottom: 33,
-
-  },
-
-});
 export default TelaDeCadastro;

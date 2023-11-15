@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image, Alert } from 'react-native';
-import axios from 'axios';
+import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
 import logo from '../../Components/images/LogoGrande.png';
+import axios from 'axios';
 import Footer from '../../Components/Footer/Footer';
+import styles from '../../Pages/TelaDeLogin/styles';
+import { AuthContextFunctions } from "../../../AuthContext";
 
-function TelaDeLogin ({ navigation }) {
+function TelaDeLogin({ navigation }) {
+
   const [usuario, setUsuario] = useState({
     CPF: '',
     Nome: '',
@@ -16,8 +19,13 @@ function TelaDeLogin ({ navigation }) {
       NomeLog: '',
       Numero: '',
     },
+    Cidade: {
+      Nome_Cidade: ''
+    },
+    Estado: {
+      Nome_Estado: ''
+    }
   });
-  
 
   const [mensagem, setMensagem] = useState('');
   const [errors, setErrors] = useState({
@@ -25,12 +33,13 @@ function TelaDeLogin ({ navigation }) {
     senha: '',
   });
 
-  const handleInputChange = (text, field) => {
+  const handleInputChange = (name, value) => {
     setUsuario((prevUsuario) => ({
       ...prevUsuario,
-      [field]: text,
+      [name]: value,
     }));
-    setErrors({ ...errors, [field]: '' }); 
+    setErrors({ ...errors, [name]: '' });
+    setMensagem('');
   };
 
   const handleLogin = async () => {
@@ -43,35 +52,21 @@ function TelaDeLogin ({ navigation }) {
         });
         return;
       }
-      const response = await axios.post("https://localhost:44302/api/Usuario/Login", usuario);
-      if (response.status === 200) {
-        const userData = response.data;
-        setUsuario((prevUsuario) => ({
-          ...prevUsuario,
-          ID: userData.id,
-          Nome: userData.nome,
-          CPF: userData.cpf,
-          Telefone: userData.telefone,
-          Email: userData.email,
-          Senha: userData.senha,
-          CEP : userData.cep,
-          NomeLog : userData.nomeLog,
-          Logradouro : userData.logradouro,
-          
 
-          
-        }));
-        navigation.navigate('TelaPrincipalNavigator');
+      const response = await axios.post("https://petfeliz.azurewebsites.net/api/Auth/Login", usuario);
+
+      if (response.status === 200) {
+        AuthContextFunctions.SaveJWT(response.data.token);
+        const user = AuthContextFunctions.GetUserData();
+        navigation.navigate("TelaPrincipalNavigator", {user});
       } else {
         setMensagem('Usuário ou senha incorretos.');
       }
     } catch (error) {
       console.error('Erro no login:', error);
-      setMensagem('Erro no servidor.');
+      setMensagem('Erro no servidor. Por favor, tente novamente.');
     }
   };
-  
-  
 
   return (
     <View style={styles.container}>
@@ -83,7 +78,7 @@ function TelaDeLogin ({ navigation }) {
           style={styles.input}
           placeholder="E-mail"
           value={usuario.Email}
-          onChangeText={(text) => handleInputChange(text, 'Email')}
+          onChangeText={(text) => handleInputChange('Email', text)}
         />
         <Text style={styles.errorText}>{errors.email}</Text>
 
@@ -92,7 +87,7 @@ function TelaDeLogin ({ navigation }) {
           placeholder="Senha"
           secureTextEntry={true}
           value={usuario.Senha}
-          onChangeText={(text) => handleInputChange(text, 'Senha')}
+          onChangeText={(text) => handleInputChange('Senha', text)}
         />
         <Text style={styles.errorText}>{errors.senha}</Text>
         <Text style={styles.errorMessage}>{mensagem}</Text>
@@ -100,80 +95,13 @@ function TelaDeLogin ({ navigation }) {
           <Text style={styles.buttonText}>ENTRAR</Text>
         </TouchableOpacity>
         <Text style={styles.link} onPress={() => navigation.navigate('TelaDeCadastro')}>Cadastre-se</Text>
-      <Text style={styles.link} onPress={() => navigation.navigate('#')}>Esqueceu sua Senha?</Text>
+        <Text style={styles.link} onPress={() => navigation.navigate('#')}>Esqueceu sua Senha?</Text>
       </View>
       <View>
-      <Footer/>
+        <Footer />
       </View>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    backgroundColor: 'white',
-  },
-  imgContainer: {
-    alignItems:'center',
-  },
-  img: {
-    width: 150,
-    height: 150,
-    marginBottom: 70,
-    marginTop: 30,
-  },
-  formContainer: {
-    flex: 2,
-    alignItems: 'center',
-  },
-  input: {
-    width: 350,
-    height: 70,
-    borderColor: 'gray',
-    marginBottom: 20,
-    paddingLeft: 10,
-    borderRadius: 10,
-    fontSize: 20,
-    shadowColor: "black",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.4,
-    shadowRadius: 4,
-    elevation: 4,
-
-  },
-  button: {
-    backgroundColor: '#F9C200',
-    borderRadius: 10,
-    width: 300,
-    height: 70,
-    alignItems: 'center',
-    shadowColor: 'black',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.4,
-    shadowRadius: 4,
-    elevation: 4,
-    marginTop: 30,
-    paddingVertical: 10,
-  },
-  buttonText: {
-    color: 'white',
-    textAlign: 'center',
-    fontSize: 30,
-    fontWeight: 'bold',
-  },
-  link: {
-    fontSize: 20,
-    marginTop: 20,
-  },
-  errorMessage: {
-    color: 'red',
-    marginBottom: 10,
-  },
-  errorText: {
-    color: 'red',
-  },
-});
 
 export default TelaDeLogin;

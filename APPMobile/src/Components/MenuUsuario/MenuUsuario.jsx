@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 
-const MenuUsuario = ({ navigation }) => {
-  
+const MenuUsuario = ({ navigation, userData }) => {
   const userImage = require('/src/Components/images/gatinho.png');
-  const userName = 'Nome do Usuário';
+  const userName = userData ? user.Nome_Usuario : '';
+
 
   return (
     <View style={styles.container}>
@@ -134,13 +134,11 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     marginRight: 10,
-    // Você pode definir cores específicas para cada ícone aqui
   },
   menuItem: {
     fontSize: 18,
     padding: 10,
-    color: 'white', // Cor do texto
-    // Outras estilizações de texto
+    color: 'white',
   },
 });
 
