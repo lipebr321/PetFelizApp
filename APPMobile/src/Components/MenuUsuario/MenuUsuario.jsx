@@ -1,89 +1,120 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import React, { useEffect, useState } from "react";
+import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import { AuthContextFunctions } from "../../../AuthContext";
 
-const MenuUsuario = ({ navigation, userData }) => {
-  const userImage = require('/src/Components/images/gatinho.png');
-  const userName = userData ? user.Nome_Usuario : '';
+const MenuUsuario = ({ navigation }) => {
+  const userImage = require("/src/Components/images/gatinho.png");
 
+  const [user, setUser] = useState({});
+
+  useEffect(() => {
+    InitializeUser();
+  }, []);
+
+  async function InitializeUser() {
+    let userData = await AuthContextFunctions.GetUserData();
+    setUser(userData);
+  }
 
   return (
     <View style={styles.container}>
       <View style={styles.userInfoContainer}>
         <Image source={userImage} style={styles.userImage} />
-        <Text style={styles.userName}>{userName}</Text>
+        <Text style={styles.userName}>{user.Nome_Usuario}</Text>
       </View>
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate('PerfilUsuario');
+          navigation.navigate("PerfilUsuario");
         }}
       >
         <View style={styles.menuItemContainer}>
-          <Image source={require('/src/Components/images/pata.png')} style={styles.menuIcon} />
+          <Image
+            source={require("/src/Components/images/pata.png")}
+            style={styles.menuIcon}
+          />
           <Text style={styles.menuItem}>Meu perfil</Text>
         </View>
       </TouchableOpacity>
 
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate('PetsUsuario');
+          navigation.navigate("PetsUsuario");
         }}
       >
-          <View style={styles.menuItemContainer}>
-          <Image source={require('/src/Components/images/cachorro.png')} style={styles.menuIcon} />
+        <View style={styles.menuItemContainer}>
+          <Image
+            source={require("/src/Components/images/cachorro.png")}
+            style={styles.menuIcon}
+          />
           <Text style={styles.menuItem}>Meus pets</Text>
         </View>
       </TouchableOpacity>
 
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate('TelaPrincipal');
+          navigation.navigate("TelaPrincipal");
         }}
       >
-          <View style={styles.menuItemContainer}>
-          <Image source={require('/src/Components/images/gato.png')} style={styles.menuIcon} />
+        <View style={styles.menuItemContainer}>
+          <Image
+            source={require("/src/Components/images/gato.png")}
+            style={styles.menuIcon}
+          />
           <Text style={styles.menuItem}>Adotar Pet</Text>
         </View>
       </TouchableOpacity>
 
-        <TouchableOpacity
+      <TouchableOpacity
         onPress={() => {
-          navigation.navigate('CadastroAnimal');
+          navigation.navigate("CadastroAnimal");
         }}
       >
-          <View style={styles.menuItemContainer}>
-          <Image source={require('/src/Components/images/ossinho.png')} style={styles.menuIcon} />
+        <View style={styles.menuItemContainer}>
+          <Image
+            source={require("/src/Components/images/ossinho.png")}
+            style={styles.menuIcon}
+          />
           <Text style={styles.menuItem}>Cadastrar pet</Text>
         </View>
       </TouchableOpacity>
 
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate('SobreNos');
+          navigation.navigate("SobreNos");
         }}
       >
-          <View style={styles.menuItemContainer}>
-          <Image source={require('/src/Components/images/sobre.png')} style={styles.menuIcon} />
+        <View style={styles.menuItemContainer}>
+          <Image
+            source={require("/src/Components/images/sobre.png")}
+            style={styles.menuIcon}
+          />
           <Text style={styles.menuItem}>Sobre nós</Text>
         </View>
       </TouchableOpacity>
 
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate('FAQ');
+          navigation.navigate("FAQ");
         }}
       >
-          <View style={styles.menuItemContainer}>
-          <Image source={require('/src/Components/images/ajuda.png')} style={styles.menuIcon} />
+        <View style={styles.menuItemContainer}>
+          <Image
+            source={require("/src/Components/images/ajuda.png")}
+            style={styles.menuIcon}
+          />
           <Text style={styles.menuItem}>Duvidas?</Text>
         </View>
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate('TelaConfig');
+          navigation.navigate("TelaConfig");
         }}
       >
-          <View style={styles.menuItemContainer}>
-          <Image source={require('/src/Components/images/config.png')} style={styles.menuIcon} />
+        <View style={styles.menuItemContainer}>
+          <Image
+            source={require("/src/Components/images/config.png")}
+            style={styles.menuIcon}
+          />
           <Text style={styles.menuItem}>Configurações</Text>
         </View>
       </TouchableOpacity>
@@ -94,7 +125,10 @@ const MenuUsuario = ({ navigation, userData }) => {
         }}
       >
         <View style={styles.menuItemContainer}>
-          <Image source={require('/src/Components/images/sair.png')} style={styles.menuIcon} />
+          <Image
+            source={require("/src/Components/images/sair.png")}
+            style={styles.menuIcon}
+          />
           <Text style={styles.menuItem}>Sair</Text>
         </View>
       </TouchableOpacity>
@@ -106,13 +140,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#fff',
-    justifyContent: 'center',
-    backgroundColor: '#F9C200',
+    backgroundColor: "#fff",
+    justifyContent: "center",
+    backgroundColor: "#F9C200",
   },
   userInfoContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: 30,
   },
   userImage: {
@@ -123,11 +157,11 @@ const styles = StyleSheet.create({
   },
   userName: {
     fontSize: 18,
-    color:'white'
+    color: "white",
   },
   menuItemContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: 30,
   },
   menuIcon: {
@@ -138,7 +172,7 @@ const styles = StyleSheet.create({
   menuItem: {
     fontSize: 18,
     padding: 10,
-    color: 'white',
+    color: "white",
   },
 });
 

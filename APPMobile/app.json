@@ -11,9 +11,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
@@ -25,15 +23,12 @@
       "package": "com.lipebr321.AppTcc"
     },
     "web": {
-      "favicon": "./assets/favicon.png",
-      "bundler": "metro"
+      "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
         "projectId": "95b10a50-7767-4963-9f40-71a5267434d6"
       }
-    },
-    "sdkVersion": "49.0.0"
-  },
-  "name": "apptcc"
+    }
+  }
 }
