@@ -16,6 +16,14 @@ const MenuUsuario = ({ navigation }) => {
     setUser(userData);
   }
 
+  const { fazerLogout } = AuthContextFunctions;
+
+  const handleLogout = () => {
+    fazerLogout(navigation);
+  };
+
+
+
   return (
     <View style={styles.container}>
       <View style={styles.userInfoContainer}>
@@ -119,10 +127,7 @@ const MenuUsuario = ({ navigation }) => {
         </View>
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={() => {
-          // Lógica para sair da conta
-          // Por exemplo, deslogar o usuário
-        }}
+        onPress={handleLogout}
       >
         <View style={styles.menuItemContainer}>
           <Image

@@ -33,11 +33,10 @@ const TelaPrincipal = ({ navigation }) => {
   const handleCardPress = (pet) => {
     navigation.navigate("TelaPet", { pet });
   };
-
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#0000ff" />
+        <ActivityIndicator size="large" color="#F9C200" />
       </View>
     );
   }

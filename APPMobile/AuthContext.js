@@ -67,9 +67,20 @@ async function CheckUserLogin() {
   }
 }
 
+const fazerLogout = async (navigation) => {
+  try {
+    await AsyncStorage.removeItem('jwt');
+
+    navigation.navigate('TelaDeLogin');
+  } catch (error) {
+    console.error('Erro ao fazer logout:', error);
+  }
+};
+
 export const AuthContextFunctions = {
   SaveJWT,
   GetUserData,
   GenerateHeader,
   CheckUserLogin,
+  fazerLogout,
 };

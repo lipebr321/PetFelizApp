@@ -1,5 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, Image } from "react-native";
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Image,
+  ActivityIndicator,
+} from "react-native";
 import logo from "../../Components/images/LogoGrande.png";
 import axios from "axios";
 import Footer from "../../Components/Footer/Footer";
@@ -7,17 +14,7 @@ import styles from "../../Pages/TelaDeLogin/styles";
 import { AuthContextFunctions } from "../../../AuthContext";
 
 function TelaDeLogin({ navigation }) {
-  useEffect(() => {
-    ChecarLoginUsuario();
-  }, []);
-
-  async function ChecarLoginUsuario() {
-    const usuarioLogado = await AuthContextFunctions.CheckUserLogin();
-    if (usuarioLogado) {
-      navigation.navigate("TelaPrincipalNavigator");
-    }
-  }
-
+  const [loading, setLoading] = useState(false);
   const [usuario, setUsuario] = useState({
     CPF: "",
     Nome: "",
@@ -36,12 +33,22 @@ function TelaDeLogin({ navigation }) {
       Nome_Estado: "",
     },
   });
-
   const [mensagem, setMensagem] = useState("");
   const [errors, setErrors] = useState({
     email: "",
     senha: "",
   });
+
+  useEffect(() => {
+    ChecarLoginUsuario();
+  }, []);
+
+  async function ChecarLoginUsuario() {
+    const usuarioLogado = await AuthContextFunctions.CheckUserLogin();
+    if (usuarioLogado) {
+      navigation.navigate("TelaPrincipalNavigator");
+    }
+  }
 
   const handleInputChange = (name, value) => {
     setUsuario((prevUsuario) => ({
@@ -54,6 +61,8 @@ function TelaDeLogin({ navigation }) {
 
   const handleLogin = async () => {
     try {
+      setLoading(true); // Ativa o estado de loading
+
       if (!usuario.Email || !usuario.Senha) {
         setMensagem("Preencha ambos os campos.");
         setErrors({
@@ -77,6 +86,8 @@ function TelaDeLogin({ navigation }) {
     } catch (error) {
       console.error("Erro no login:", error);
       setMensagem("Erro no servidor. Por favor, tente novamente.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -103,9 +114,13 @@ function TelaDeLogin({ navigation }) {
         />
         <Text style={styles.errorText}>{errors.senha}</Text>
         <Text style={styles.errorMessage}>{mensagem}</Text>
-        <TouchableOpacity style={styles.button} onPress={handleLogin}>
-          <Text style={styles.buttonText}>ENTRAR</Text>
-        </TouchableOpacity>
+        {loading ? (
+          <ActivityIndicator size="large" color="#F9C200" />
+        ) : (
+          <TouchableOpacity style={styles.button} onPress={handleLogin}>
+            <Text style={styles.buttonText}>ENTRAR</Text>
+          </TouchableOpacity>
+        )}
         <Text
           style={styles.link}
           onPress={() => navigation.navigate("TelaDeCadastro")}
