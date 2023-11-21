@@ -23,16 +23,16 @@ const PerfilUsuario = ({ navigation }) => {
   const [showModal, setShowModal] = useState(false);
 
   const handleLogout = () => {
-    setShowModal(true); // Mostra o modal de confirmação
+    setShowModal(true);
   };
 
   const confirmLogout = () => {
-    setShowModal(false); // Fecha o modal de confirmação
-    fazerLogout(navigation); // Realiza o logout
+    setShowModal(false); 
+    fazerLogout(navigation); 
   };
 
   const cancelLogout = () => {
-    setShowModal(false); // Fecha o modal de confirmação sem fazer logout
+    setShowModal(false); 
   };
 
 
