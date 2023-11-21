@@ -1,11 +1,42 @@
-import React from "react";
-import { View, Text, Image } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text, Image, TouchableOpacity, Modal } from "react-native";
 import Usuario from "../../Components/images/gatinho.png";
 import Footer from "../../Components/Footer/Footer";
 import Linha from "../../Components/DivisorDeTela/DivisorDeTela";
 import styles from '../../Pages/PerfilUsuario/styles';
+import { AuthContextFunctions } from "../../../AuthContext";
 
 const PerfilUsuario = ({ navigation }) => {
+
+  const [user, setUser] = useState({});
+
+  useEffect(() => {
+    InitializeUser();
+  }, []);
+
+  async function InitializeUser() {
+    let userData = await AuthContextFunctions.GetUserData();
+    setUser(userData);
+  }
+
+  const { fazerLogout } = AuthContextFunctions;
+  const [showModal, setShowModal] = useState(false);
+
+  const handleLogout = () => {
+    setShowModal(true); // Mostra o modal de confirmação
+  };
+
+  const confirmLogout = () => {
+    setShowModal(false); // Fecha o modal de confirmação
+    fazerLogout(navigation); // Realiza o logout
+  };
+
+  const cancelLogout = () => {
+    setShowModal(false); // Fecha o modal de confirmação sem fazer logout
+  };
+
+
+
   return (
     <View style={styles.container}>
       <Linha />
@@ -15,7 +46,7 @@ const PerfilUsuario = ({ navigation }) => {
       <View style={styles.avatarContainer}>
         <Image source={Usuario} style={styles.avatar} />
 
-        <Text style={styles.nomeUsuario}>Nome do Usuário</Text>
+        <Text style={styles.nomeUsuario}>{user.Nome_Usuario}</Text>
       </View>
 
       <View style={styles.menuContainer}>
@@ -66,10 +97,27 @@ const PerfilUsuario = ({ navigation }) => {
 
         <Linha />
 
-        <Text style={styles.menuItem}>Sair</Text>
+        <TouchableOpacity
+        onPress={handleLogout}
+      >
+          <Text style={styles.menuItem}>Sair</Text>
+      </TouchableOpacity>
       </View>
 
       <Footer />
+      <Modal visible={showModal} animationType="slide" transparent>
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <View style={{ backgroundColor: 'white', padding: 20 }}>
+            <Text>Deseja sair?</Text>
+            <TouchableOpacity onPress={confirmLogout}>
+              <Text>Confirmar</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={cancelLogout}>
+              <Text>Cancelar</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -8,9 +8,11 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-// import DateTimePicker from '@react-native-community/datetimepicker';
 import axios from "axios";
 import { AuthContextFunctions } from "../../../AuthContext";
+import * as ImagePicker from 'expo-image-picker';
+
+
 
 const CadastroAnimal = () => {
   const [Nome_Pet, setNome_Pet] = useState("");
@@ -23,23 +25,23 @@ const CadastroAnimal = () => {
   const [Nome_Foto, setNome_Foto] = useState("");
   const [Foto_Pet, setFoto_Pet] = useState("");
   const [Base64, setBase64] = useState(null);
-
+  const [Cod_Usuario, setCod_Usuario] = useState("");
   const [Especie, setEspecie] = useState({
-    Nome_Especie: "",
-  });
+      Nome_Especie: '',
+  })
 
   const [Raca, setRaca] = useState({
-    Nome_Raca: "",
+      Nome_Raca: '',
   });
 
   const [Animal, setAnimal] = useState({
-    Nome_Animal: "",
+      Nome_Animal: '',
   });
 
   const [Vacina, setVacina] = useState({
-    data_vacina: "",
-    status: "Selecione a opção",
-    descricao: "",
+      data_vacina: '',
+      status: 'Selecione a opção',
+      descricao: '',
   });
 
   const idade_Pet = [
@@ -60,66 +62,89 @@ const CadastroAnimal = () => {
     return {};
   };
 
-  const handleDateChange = (event, selectedDate) => {
-    setVacina({ ...Vacina, data_vacina: selectedDate || Vacina.data_vacina });
-  };
-
-  const handleFileChange = (event) => {
-    const selectedFile = event.target.files[0];
-
-    if (selectedFile) {
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        const base64 = e.target.result.split(",")[1];
-        setBase64(base64);
-      };
-      reader.readAsDataURL(selectedFile);
+  useEffect(() => {
+    const usuarioLogado = AuthContextFunctions.CheckUserLogin();
+  
+    if (usuarioLogado) {
+      const userData = AuthContextFunctions.GetUserData();
+      try {
+        const userId = userData.Cod_Usuario;
+        setCod_Usuario(userId);
+      } catch (error) {
+        console.error('Erro ao analisar os dados do usuário:', error);
+      }
     } else {
-      setBase64(null);
+      alert("Nenhum usuário logado");
     }
-  };
+  }, []);
+  
+
+
+  async function selecionarImagem() {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      quality: 1,
+    });
+  
+    if (result.cancelled) {
+      return;
+    }
+  
+    setBase64(result.uri);
+  }
+  
 
   const handleSubmit = async () => {
     const validationErrors = await validateForm();
     setErrors(validationErrors);
 
     if (Base64) {
-      const body = {
-        Vacina,
-        Animal,
-        Raca,
-        Especie,
-        Nome_Pet,
-        Porte_Pet,
-        Sexo_Pet,
-        Idade_Pet,
-        Descricao_Pet,
-        Status_Pet,
-        Castrado,
-        Nome_Foto,
-        Foto_Pet,
-        Base64,
-      };
 
-      if (Object.keys(validationErrors).length === 0) {
-        try {
-          const headers = AuthContextFunctions.GenerateHeader();
-          const response = await axios.post(
-            "https://petfeliz.azurewebsites.net/api/PetFeliz/CadastrarPet",
-            body,
-            { headers }
-          );
+      const body = {
+          Vacina,
+          Animal, 
+          Raca, 
+          Especie, 
+          Nome_Pet, 
+          Porte_Pet, 
+          Sexo_Pet, 
+          Idade_Pet, 
+          Descricao_Pet, 
+          Status_Pet, 
+          Castrado, 
+          Nome_Foto, 
+          Foto_Pet, 
+          Base64, 
+          Cod_Usuario
+      }
+      
+
+      if (!AuthContextFunctions.CheckUserLogin()) {
+          console.log("Usuário não logado. Redirecionando para a página de login.");
+          return;
+      }
+
+      const headers = AuthContextFunctions.GenerateHeader();
+      const token = headers["Authorization"];
+
+      try {
+
+          const response = await axios.post('https://petfeliz.azurewebsites.net/api/PetFeliz/CadastrarPet', body, {
+              headers: {
+                  Authorization: token,
+                  'Content-Type': 'application/json',
+              },
+          });
 
           if (response.status === 200) {
-            alert("Cadastro realizado com sucesso");
+              alert('Cadastro realizado com sucesso');
           }
-        } catch (error) {
-          console.error("Erro ao fazer a solicitação:", error);
-          alert("Erro no servidor.");
-        }
+      } catch (error) {
+          console.error('Erro ao fazer a solicitação:', error);
+          alert('teste');
       }
-    }
-  };
+  }
+}
 
   return (
     <ScrollView>
@@ -257,13 +282,6 @@ const CadastroAnimal = () => {
             <Picker.Item label={option} value={option} key={option} />
           ))}
         </Picker>
-        {/* 
-        <DateTimePicker
-          value={Vacina.data_vacina}
-          mode="date"
-          display="spinner"
-          onChange={handleDateChange}
-        /> */}
 
         <TextInput
           style={{
@@ -301,7 +319,8 @@ const CadastroAnimal = () => {
           value={Nome_Foto}
         />
 
-        <Button title="Selecionar Imagem" onPress={handleFileChange} />
+        <Button title="Selecione a imagem" onPress={selecionarImagem} />
+    
 
         <TouchableOpacity
           style={{

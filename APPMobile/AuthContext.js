@@ -15,13 +15,17 @@ async function SaveJWT(jwtData) {
 async function GetUserData() {
   try {
     const userDataString = await AsyncStorage.getItem("userData");
-    console.log(userDataString);
-    return JSON.parse(userDataString);
+    if (userDataString !== null) {
+      console.log(userDataString);
+      return JSON.parse(userDataString);
+    }
+    return null;
   } catch (error) {
     console.error("Error getting data from AsyncStorage:", error);
     return null;
   }
 }
+
 
 async function GenerateHeader() {
   const usuarioLogado = await CheckUserLogin();
@@ -32,15 +36,22 @@ async function GenerateHeader() {
 
   try {
     const token = await AsyncStorage.getItem("jwt");
-    return {
-      Authorization: "Bearer " + token,
-      "Content-Type": "application/json",
+    const headers = {
+      get: function(headerName) {
+        if (headerName === 'Authorization') {
+          return "Bearer " + token;
+        } else if (headerName === 'Content-Type') {
+          return "application/json";
+        }
+      }
     };
+    return headers;
   } catch (error) {
-    console.error("Error getting token from AsyncStorage:", error);
+    console.error("Erro noAsyncStorage:", error);
     return {};
   }
 }
+
 
 async function CheckUserLogin() {
   try {
