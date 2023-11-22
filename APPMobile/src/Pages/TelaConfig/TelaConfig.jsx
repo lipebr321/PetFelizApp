@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, Modal, TextInput, Button } from "react-native";
 import Footer from "../../Components/Footer/Footer";
 import Linha from "../../Components/DivisorDeTela/DivisorDeTela";
 import styles from '../../Pages/TelaConfig/styles';
@@ -10,6 +10,7 @@ import { AuthContextFunctions } from "../../../AuthContext";
 
 const TelaConfig = ({ navigation }) => {
   const [user, setUser] = useState({});
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     InitializeUser();
@@ -21,6 +22,19 @@ const TelaConfig = ({ navigation }) => {
   }
 const voltarTelaAnterior = () => {
   navigation.goBack();
+};
+
+const openModal = () => {
+  setShowModal(true);
+};
+
+const closeModal = () => {
+  setShowModal(false);
+};
+
+const handleUpdateProfile = () => {
+ 
+  closeModal();
 };
   return (
     <View style={styles.container}>
@@ -98,7 +112,7 @@ const voltarTelaAnterior = () => {
         onPress={(voltarTelaAnterior)}
         >
           Voltar</Text>
-          <TouchableOpacity style={styles.Button} onPress={''}>
+          <TouchableOpacity style={styles.Button} onPress={openModal}>
       <Text>Alterar perfil</Text>
     </TouchableOpacity>
         </View>
@@ -106,6 +120,18 @@ const voltarTelaAnterior = () => {
       </View>
 
       <Footer />
+      <Modal visible={showModal} animationType="slide">
+        <View>
+          <TextInput value={user.Nome_Usuario} onChangeText={(text) => {/* Atualiza o estado */}} />
+          <TextInput value={user.Email} onChangeText={(text) => {/* Atualiza o estado */}} />
+          <TextInput value={user.Nome_Log} onChangeText={(text) => {/* Atualiza o estado */}} />
+          <TextInput value={user.Nome_Estado} onChangeText={(text) => {/* Atualiza o estado */}} />
+          <TextInput value={user.Nome_Cidade} onChangeText={(text) => {/* Atualiza o estado */}} />
+          <TextInput value={user.Telefone} onChangeText={(text) => {/* Atualiza o estado */}} />
+          <Button title="Salvar Alterações" onPress={handleUpdateProfile} />
+          <Button title="Cancelar" onPress={closeModal} />
+        </View>
+      </Modal>
     </View>
   );
 };
