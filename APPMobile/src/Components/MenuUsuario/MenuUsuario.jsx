@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Image, Modal } from "react-native";
 import { AuthContextFunctions } from "../../../AuthContext";
 
 const MenuUsuario = ({ navigation }) => {
   const userImage = require("/src/Components/images/gatinho.png");
 
   const [user, setUser] = useState({});
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     InitializeUser();
@@ -19,7 +20,16 @@ const MenuUsuario = ({ navigation }) => {
   const { fazerLogout } = AuthContextFunctions;
 
   const handleLogout = () => {
-    fazerLogout(navigation);
+    setShowModal(true);
+  };
+
+  const confirmLogout = () => {
+    setShowModal(false); 
+    fazerLogout(navigation); 
+  };
+
+  const cancelLogout = () => {
+    setShowModal(false); 
   };
 
 
@@ -137,6 +147,19 @@ const MenuUsuario = ({ navigation }) => {
           <Text style={styles.menuItem}>Sair</Text>
         </View>
       </TouchableOpacity>
+      <Modal visible={showModal} animationType="slide" transparent>
+        <View style={styles.modalContainer}>
+        <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Deseja sair?</Text>
+            <TouchableOpacity style={styles.Button} onPress={confirmLogout}>
+              <Text>Confirmar</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.Button} onPress={cancelLogout}>
+              <Text>Cancelar</Text>
+            </TouchableOpacity>
+            </View>
+          </View>
+      </Modal>
     </View>
   );
 };
@@ -148,6 +171,38 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     justifyContent: "center",
     backgroundColor: "#F9C200",
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalContent: {
+    width: 300,
+    backgroundColor: "white",
+    padding: 20,
+    borderRadius: 10,
+    alignItems: "center",
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 20,
+  },
+  Button: {
+    backgroundColor: "#F9C200",
+    borderRadius: 10,
+    width: 100,
+    height: 40,
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom:10,
+  },
+  ButtonText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
   },
   userInfoContainer: {
     flexDirection: "row",

@@ -15,6 +15,7 @@ const Drawer = createDrawerNavigator();
 
 const TelaPrincipalNavigator = () => {
   const [user, setUser] = useState(null);
+  
 
   useEffect(() => {
     const fetchUser = async () => {

@@ -103,20 +103,19 @@ const PerfilUsuario = ({ navigation }) => {
           <Text style={styles.menuItem}>Sair</Text>
       </TouchableOpacity>
       </View>
-
       <Footer />
       <Modal visible={showModal} animationType="slide" transparent>
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <View style={{ backgroundColor: 'white', padding: 20 }}>
-            <Text>Deseja sair?</Text>
-            <TouchableOpacity onPress={confirmLogout}>
+        <View style={styles.modalContainer}>
+        <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Deseja sair?</Text>
+            <TouchableOpacity style={styles.Button} onPress={confirmLogout}>
               <Text>Confirmar</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={cancelLogout}>
+            <TouchableOpacity style={styles.Button} onPress={cancelLogout}>
               <Text>Cancelar</Text>
             </TouchableOpacity>
+            </View>
           </View>
-        </View>
       </Modal>
     </View>
   );

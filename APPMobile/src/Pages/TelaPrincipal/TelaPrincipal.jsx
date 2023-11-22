@@ -1,14 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  View,
-  ActivityIndicator,
-  Text,
-  ScrollView,
-  TouchableOpacity,
-  Image,
-  Picker,
-  Modal,
-} from "react-native";
+import {  View, ActivityIndicator,  Text,  ScrollView,  TouchableOpacity,  Image,  Picker,  Modal, } from "react-native";
 import axios from "axios";
 import styles from "../../Pages/TelaPrincipal/styles";
 
@@ -24,6 +15,11 @@ const TelaPrincipal = ({ navigation }) => {
     tipo: "",
     uf: "",
   });
+
+  const [placeholderPorte, setPlaceholderPorte] = useState('Selecione o porte');
+  const [placeholderSexo, setPlaceholderSexo] = useState('Selecione o sexo');
+  const [placeholderTipo, setPlaceholderTipo] = useState('Selecione o tipo');
+  const [placeholderUf, setPlaceholderUf] = useState('Selecione a UF');
 
   const porte_Pet = [
     { value: "anao", label: "Anão" },
@@ -108,6 +104,20 @@ useEffect(() => {
     setShowModal(false);
   };
 
+  const resetPicker = () => {
+    setFilters({
+      porte: '',
+      sexo: '',
+      tipo: '',
+      uf: '',
+    });
+
+    setPlaceholderPorte('Selecione o porte');
+    setPlaceholderSexo('Selecione o sexo');
+    setPlaceholderTipo('Selecione o tipo');
+    setPlaceholderUf('Selecione a UF');
+  };
+
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
@@ -132,9 +142,15 @@ useEffect(() => {
     style={styles.container}
   >
     
-      <TouchableOpacity onPress={handleFilter}>
-        <Text style={styles.menuItem}>Filtrar</Text>
-      </TouchableOpacity>
+    <View style={styles.alignRight}>
+        <TouchableOpacity onPress={handleFilter} style={styles.button}>
+          <Image
+            source={require("/src/Components/images/filtro.png")}
+            style={styles.icon}
+          />
+          <Text style={styles.menuItem}>Filtrar</Text>
+        </TouchableOpacity>
+      </View>
 
       {pets.map((pet, index) => (
         <TouchableOpacity key={index} onPress={() => handleCardPress(pet)}>
@@ -142,58 +158,127 @@ useEffect(() => {
             <Image source={{ uri: pet.foto_Pet }} style={styles.image} />
 
             <Text style={styles.nome}>{pet.nome_Pet}</Text>
-
             <Text style={styles.descricao}>{pet.descricao_Pet}</Text>
           </View>
         </TouchableOpacity>
       ))}
 
-      <Modal visible={showModal} animationType="slide" transparent>
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-  <View style={{ backgroundColor: 'white', padding: 20 }}>
-    <Text>Filtro</Text>
-    <Picker
-              style={styles.picker}
-              selectedValue={filters.porte}
-              onValueChange={(porte) => setFilters({ ...filters, porte })}
-            >
-              {porte_Pet.map((item) => (
-                <Picker.Item key={item.value} label={item.label} value={item.value} />
-              ))}
-            </Picker>
+<Modal visible={showModal} animationType="slide" transparent>
+        <View style={styles.modalContainer}>
+        <View style={styles.modalContent}>
+  <View style={styles.alignRight}>
+  <View style={styles.modalFiltro}>
+          <Image
+            source={require("/src/Components/images/filtro.png")}
+            style={styles.icon}
+          />
+          <Text style={styles.menuItem}>Filtros</Text>
+      </View>
+      </View>
+      <Picker
+  style={styles.picker}
+  selectedValue={filters.porte}
+  onValueChange={(selectedPorte) => {
+    if (selectedPorte === '') {
+      setFilters({ ...filters, porte: '' });
+      setPlaceholderPorte('Selecione o porte');
+    } else {
+      setFilters({ ...filters, porte: selectedPorte });
+      setPlaceholderPorte(''); 
+    }
+  }}
+>
+
+  <Picker.Item label={placeholderPorte} value="" />
+
+  {porte_Pet.map((item) => (
+    <Picker.Item key={item.value} label={item.label} value={item.value} />
+  ))}
+</Picker>
+
     <Picker
               style={styles.picker}
               selectedValue={filters.sexo}
-              onValueChange={(sexo) => setFilters({ ...filters, sexo })}
+              onValueChange={(selectedSexo) => {
+                if (selectedSexo === '') {
+                  setFilters({ ...filters, sexo: '' });
+                  setPlaceholderSexo('Selecione o sexo');
+                } else {
+                  setFilters({ ...filters, sexo: selectedSexo });
+                  setPlaceholderSexo(''); 
+                }
+              }}
             >
+               <Picker.Item label={placeholderSexo} value="" />
+
               {sexo_Pet.map((item) => (
                 <Picker.Item key={item.value} label={item.label} value={item.value} />
               ))}
             </Picker>
+
             <Picker
               style={styles.picker}
               selectedValue={filters.tipo}
-              onValueChange={(tipo) => setFilters({ ...filters, tipo })}
+              onValueChange={(selectedTipo) => {
+                if (selectedTipo === '') {
+                  setFilters({ ...filters, tipo: '' });
+                  setPlaceholderTipo('Selecione o sexo');
+                } else {
+                  setFilters({ ...filters, tipo: selectedTipo });
+                  setPlaceholderTipo(''); 
+                }
+              }}
             >
+               <Picker.Item label={placeholderTipo} value="" />
               {nome_Animal.map((item) => (
                 <Picker.Item key={item.value} label={item.label} value={item.value} />
               ))}
             </Picker>
             <Picker
-      style={styles.picker}
-      selectedValue={filters.uf}
-      onValueChange={(uf) => setFilters({ uf })}
-    >
-      <Picker.Item label="SP" value="sp" />
-      <Picker.Item label="RJ" value="rj" />
-      <Picker.Item label="MG" value="mg" />
-    </Picker>
-    <TouchableOpacity onPress={confirmFilter}>
-      <Text>Confirmar</Text>
+  style={styles.picker}
+  selectedValue={filters.uf}
+  onValueChange={(selectedUf) => setFilters({ ...filters, uf: selectedUf })}
+>
+  <Picker.Item label={placeholderUf} value="" />
+  <Picker.Item label="Acre" value="AC" />
+<Picker.Item label="Alagoas" value="AL" />
+<Picker.Item label="Amapá" value="AP" />
+<Picker.Item label="Amazonas" value="AM" />
+<Picker.Item label="Bahia" value="BA" />
+<Picker.Item label="Ceará" value="CE" />
+<Picker.Item label="Distrito Federal" value="DF" />
+<Picker.Item label="Espírito Santo" value="ES" />
+<Picker.Item label="Goiás" value="GO" />
+<Picker.Item label="Maranhão" value="MA" />
+<Picker.Item label="Mato Grosso" value="MT" />
+<Picker.Item label="Mato Grosso do Sul" value="MS" />
+<Picker.Item label="Minas Gerais" value="MG" />
+<Picker.Item label="Pará" value="PA" />
+<Picker.Item label="Paraíba" value="PB" />
+<Picker.Item label="Paraná" value="PR" />
+<Picker.Item label="Pernambuco" value="PE" />
+<Picker.Item label="Piauí" value="PI" />
+<Picker.Item label="Rio de Janeiro" value="RJ" />
+<Picker.Item label="Rio Grande do Norte" value="RN" />
+<Picker.Item label="Rio Grande do Sul" value="RS" />
+<Picker.Item label="Rondônia" value="RO" />
+<Picker.Item label="Roraima" value="RR" />
+<Picker.Item label="Santa Catarina" value="SC" />
+<Picker.Item label="São Paulo" value="SP" />
+<Picker.Item label="Sergipe" value="SE" />
+<Picker.Item label="Tocantins" value="TO" />
+</Picker>
+    <View   style={styles.containerButtons} >
+    <TouchableOpacity style={styles.Button} onPress={confirmFilter}>
+      <Text>Filtrar</Text>
     </TouchableOpacity>
-    <TouchableOpacity onPress={cancelFilter}>
+    <TouchableOpacity style={styles.Button} onPress={resetPicker}>
+      <Text>Limpar</Text>
+    </TouchableOpacity>
+    <TouchableOpacity style={styles.Button} onPress={cancelFilter}>
       <Text>Cancelar</Text>
     </TouchableOpacity>
+    </View>
   </View>
 </View>
       </Modal>

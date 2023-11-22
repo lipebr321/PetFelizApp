@@ -4,7 +4,15 @@ import Footer from "../../Components/Footer/Footer";
 import Linha from "../../Components/DivisorDeTela/DivisorDeTela";
 import styles from '../../Pages/TelaConfig/styles';
 
+
+
+
 const TelaConfig = ({ navigation }) => {
+
+
+const voltarTelaAnterior = () => {
+  navigation.goBack();
+};
   return (
     <View style={styles.container}>
       <View style={styles.balaoAmarelo}>
@@ -60,7 +68,7 @@ const TelaConfig = ({ navigation }) => {
 
         <Text 
         style={styles.menuItem}
-        onPress={('')}
+        onPress={(voltarTelaAnterior)}
         >
           Voltar</Text>
       </View>
