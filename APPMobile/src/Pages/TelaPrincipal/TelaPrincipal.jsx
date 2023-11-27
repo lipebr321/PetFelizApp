@@ -136,21 +136,28 @@ useEffect(() => {
 
 
   return (
-    <ScrollView
+
+    <View 
+    pagingEnabled={true}
+    showsVerticalScrollIndicator={false}
+    style={styles.container}>
+
+<View style={styles.alignRight}>
+  <TouchableOpacity onPress={handleFilter} style={styles.button}>
+    <Image
+      source={require("/src/Components/images/filtro.png")}
+      style={styles.icon}
+    />
+    <Text style={styles.menuItem}>Filtrar</Text>
+  </TouchableOpacity>
+</View>
+
+      <ScrollView
     pagingEnabled={true}
     showsVerticalScrollIndicator={false}
     style={styles.container}
   >
-    
-    <View style={styles.alignRight}>
-        <TouchableOpacity onPress={handleFilter} style={styles.button}>
-          <Image
-            source={require("/src/Components/images/filtro.png")}
-            style={styles.icon}
-          />
-          <Text style={styles.menuItem}>Filtrar</Text>
-        </TouchableOpacity>
-      </View>
+  
 
       {pets.map((pet, index) => (
         <TouchableOpacity key={index} onPress={() => handleCardPress(pet)}>
@@ -283,7 +290,8 @@ useEffect(() => {
 </View>
       </Modal>
     </ScrollView>
-  
+  </View>
+    
   );
 };
 

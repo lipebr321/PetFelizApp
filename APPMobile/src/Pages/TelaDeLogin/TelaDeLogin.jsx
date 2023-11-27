@@ -61,7 +61,7 @@ function TelaDeLogin({ navigation }) {
 
   const handleLogin = async () => {
     try {
-      setLoading(true); // Ativa o estado de loading
+      setLoading(true);
 
       if (!usuario.Email || !usuario.Senha) {
         setMensagem("Preencha ambos os campos.");

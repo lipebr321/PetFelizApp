@@ -17,7 +17,7 @@ async function GetUserData() {
     const userDataString = await AsyncStorage.getItem("userData");
     if (userDataString !== null) {
       console.log(userDataString);
-      return JSON.parse(userDataString);
+      return userDataString;
     }
     return null;
   } catch (error) {
@@ -25,7 +25,6 @@ async function GetUserData() {
     return null;
   }
 }
-
 
 async function GenerateHeader() {
   const usuarioLogado = await CheckUserLogin();
@@ -36,22 +35,15 @@ async function GenerateHeader() {
 
   try {
     const token = await AsyncStorage.getItem("jwt");
-    const headers = {
-      get: function(headerName) {
-        if (headerName === 'Authorization') {
-          return "Bearer " + token;
-        } else if (headerName === 'Content-Type') {
-          return "application/json";
-        }
-      }
+    return {
+      Authorization: "Bearer " + token,
+      "Content-Type": "application/json",
     };
-    return headers;
   } catch (error) {
     console.error("Erro noAsyncStorage:", error);
     return {};
   }
 }
-
 
 async function CheckUserLogin() {
   try {
@@ -62,10 +54,10 @@ async function CheckUserLogin() {
     }
 
     const userDataString = await AsyncStorage.getItem("userData");
-    const userData = JSON.parse(userDataString);
-    const actualDate = Date.now() / 1000;
+    //const userData = JSON.parse(userDataString);
+    const actualDate = Date.parse(new Date()) / 1000;
 
-    if (actualDate > userData.exp) {
+    if (actualDate > userDataString.exp) {
       await AsyncStorage.removeItem("jwt");
       await AsyncStorage.removeItem("userData");
       return false;
@@ -80,11 +72,11 @@ async function CheckUserLogin() {
 
 const fazerLogout = async (navigation) => {
   try {
-    await AsyncStorage.removeItem('jwt');
+    await AsyncStorage.removeItem("jwt");
 
-    navigation.navigate('TelaDeLogin');
+    navigation.navigate("TelaDeLogin");
   } catch (error) {
-    console.error('Erro ao fazer logout:', error);
+    console.error("Erro ao fazer logout:", error);
   }
 };
 

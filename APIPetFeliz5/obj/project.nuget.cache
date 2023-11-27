@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "2ix8rnfBia/cQl0GJ57CQFxvfdM4PDasQqtxtpUMG5Ynw3XM0Ql4/uwj1DPud2pPpleCm/ggNZR1m43ubHTsCQ==",
+  "dgSpecHash": "hER+x/zHUu2T+44DThF/egh7jfCTln6Xohg5IV9cRzjQMqzf7BIF1AB/ALdEijIG8RgZmWdO3xEUUhf5So6XPw==",
   "success": true,
-  "projectFilePath": "D:\\MeusArquivos\\Testes\\APIPetFeliz5\\APIPetFeliz.csproj",
+  "projectFilePath": "D:\\MeusArquivos\\PetFeliz\\MobileTcc\\APIPetFeliz5\\APIPetFeliz.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Luis Felipe\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\Luis Felipe\\.nuget\\packages\\azure.storage.blobs\\12.18.0\\azure.storage.blobs.12.18.0.nupkg.sha512",

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image, Modal } from "react-native";
 import { AuthContextFunctions } from "../../../AuthContext";
 
+
+
 const MenuUsuario = ({ navigation }) => {
   const userImage = require("/src/Components/images/gatinho.png");
 

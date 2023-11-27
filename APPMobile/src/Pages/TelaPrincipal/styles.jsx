@@ -52,8 +52,10 @@ const styles = {
 
     alignRight: {
       alignItems: 'flex-end',
-      paddingRight: 15,
+      padding: 15,
+      height: 50,
     },
+
     button: {
       flexDirection: 'row',
       alignItems: 'center',

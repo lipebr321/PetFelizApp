@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -10,39 +10,41 @@ import {
 } from "react-native";
 import axios from "axios";
 import { AuthContextFunctions } from "../../../AuthContext";
-import * as ImagePicker from 'expo-image-picker';
-
-
+import * as ImagePicker from "expo-image-picker";
 
 const CadastroAnimal = () => {
-  const [Nome_Pet, setNome_Pet] = useState("");
+  const [Nome_Pet, setNome_Pet] = useState("123");
   const [Porte_Pet, setPorte_Pet] = useState("");
-  const [Sexo_Pet, setSexo_Pet] = useState("");
+  const [Sexo_Pet, setSexo_Pet] = useState("M");
   const [Idade_Pet, setIdade_Pet] = useState("");
-  const [Descricao_Pet, setDescricao_Pet] = useState("");
+  const [Descricao_Pet, setDescricao_Pet] = useState("123");
   const [Status_Pet, setStatus_Pet] = useState("");
   const [Castrado, setCastrado] = useState("");
-  const [Nome_Foto, setNome_Foto] = useState("");
-  const [Foto_Pet, setFoto_Pet] = useState("");
+  const [Foto_Pet] = useState("");
   const [Base64, setBase64] = useState(null);
   const [Cod_Usuario, setCod_Usuario] = useState("");
+  const [Nome_Foto] = useState("");
   const [Especie, setEspecie] = useState({
-      Nome_Especie: '',
-  })
+    Nome_Especie: "",
+  });
 
   const [Raca, setRaca] = useState({
-      Nome_Raca: '',
+    Nome_Raca: "",
   });
 
   const [Animal, setAnimal] = useState({
-      Nome_Animal: '',
+    Nome_Animal: "",
   });
 
   const [Vacina, setVacina] = useState({
-      data_vacina: '',
-      status: 'Selecione a opção',
-      descricao: '',
+    data_vacina: "",
+    status: "Selecione a opção",
+    descricao: "",
   });
+
+  const handleDataVacinaChange = (text) => {
+    setVacina({ ...Vacina, data_vacina: text });
+  };
 
   const idade_Pet = [
     "Entre 0 e 1",
@@ -64,87 +66,84 @@ const CadastroAnimal = () => {
 
   useEffect(() => {
     const usuarioLogado = AuthContextFunctions.CheckUserLogin();
-  
+
     if (usuarioLogado) {
       const userData = AuthContextFunctions.GetUserData();
       try {
         const userId = userData.Cod_Usuario;
         setCod_Usuario(userId);
       } catch (error) {
-        console.error('Erro ao analisar os dados do usuário:', error);
+        console.error("Erro ao analisar os dados do usuário:", error);
       }
     } else {
-      alert("Nenhum usuário logado");
+      navigation.navigate("TelaDeLogin");
     }
   }, []);
-  
-
 
   async function selecionarImagem() {
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      quality: 1,
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        quality: 1,
     });
-  
-    if (result.cancelled) {
-      return;
+
+    if (result.canceled) {
+        return;
     }
-  
-    setBase64(result.uri);
-  }
-  
+    setBase64(result.assets[0].uri);
+}
 
   const handleSubmit = async () => {
     const validationErrors = await validateForm();
     setErrors(validationErrors);
 
     if (Base64) {
-
       const body = {
-          Vacina,
-          Animal, 
-          Raca, 
-          Especie, 
-          Nome_Pet, 
-          Porte_Pet, 
-          Sexo_Pet, 
-          Idade_Pet, 
-          Descricao_Pet, 
-          Status_Pet, 
-          Castrado, 
-          Nome_Foto, 
-          Foto_Pet, 
-          Base64, 
-          Cod_Usuario
-      }
-      
+        Vacina,
+        Animal,
+        Raca,
+        Especie,
+        Nome_Pet,
+        Porte_Pet,
+        Sexo_Pet,
+        Idade_Pet,
+        Descricao_Pet,
+        Status_Pet,
+        Castrado,
+        Nome_Foto,
+        Foto_Pet,
+        Base64,
+        Cod_Usuario,
+      };
 
       if (!AuthContextFunctions.CheckUserLogin()) {
-          console.log("Usuário não logado. Redirecionando para a página de login.");
-          return;
+        console.log(
+          "Usuário não logado. Redirecionando para a página de login."
+        );
+        return;
       }
 
-      const headers = AuthContextFunctions.GenerateHeader();
-      const token = headers["Authorization"];
+      const headers = await AuthContextFunctions.GenerateHeader();
+
+      const config = {
+        headers: headers,
+      };
 
       try {
+        const response = await axios.post(
+          "https://petfeliz.azurewebsites.net/api/PetFeliz/CadastrarPet",
+          body,
+          config
+        );
 
-          const response = await axios.post('https://petfeliz.azurewebsites.net/api/PetFeliz/CadastrarPet', body, {
-              headers: {
-                  Authorization: token,
-                  'Content-Type': 'application/json',
-              },
-          });
-
-          if (response.status === 200) {
-              alert('Cadastro realizado com sucesso');
-          }
+        if (response.status === 200) {
+          alert("Cadastro realizado com sucesso");
+        }
       } catch (error) {
-          console.error('Erro ao fazer a solicitação:', error);
-          alert('teste');
+        console.error("Erro ao fazer a solicitação:", error);
+        alert("teste");
       }
-  }
-}
+    }
+  };
 
   return (
     <ScrollView>
@@ -308,20 +307,20 @@ const CadastroAnimal = () => {
         />
 
         <TextInput
+          placeholder="Data da vacina"
+          onChangeText={handleDataVacinaChange}
+          value={Vacina.data_vacina}
+          type="date"
           style={{
             height: 40,
             borderColor: "gray",
             borderWidth: 1,
-            marginBottom: 8,
+            marginBottom: 10,
           }}
-          placeholder="Nome da Imagem"
-          onChangeText={(text) => setNome_Foto(text)}
-          value={Nome_Foto}
         />
 
-        <Button title="Selecione a imagem" onPress={selecionarImagem} />
-    
-
+         <Button title="Selecione a imagem" onPress={selecionarImagem} />
+          
         <TouchableOpacity
           style={{
             backgroundColor: "blue",

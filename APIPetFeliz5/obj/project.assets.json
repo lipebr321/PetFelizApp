@@ -2874,11 +2874,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\MeusArquivos\\Testes\\APIPetFeliz5\\APIPetFeliz.csproj",
+      "projectUniqueName": "D:\\MeusArquivos\\PetFeliz\\MobileTcc\\APIPetFeliz5\\APIPetFeliz.csproj",
       "projectName": "APIPetFeliz",
-      "projectPath": "D:\\MeusArquivos\\Testes\\APIPetFeliz5\\APIPetFeliz.csproj",
+      "projectPath": "D:\\MeusArquivos\\PetFeliz\\MobileTcc\\APIPetFeliz5\\APIPetFeliz.csproj",
       "packagesPath": "C:\\Users\\Luis Felipe\\.nuget\\packages\\",
-      "outputPath": "D:\\MeusArquivos\\Testes\\APIPetFeliz5\\obj\\",
+      "outputPath": "D:\\MeusArquivos\\PetFeliz\\MobileTcc\\APIPetFeliz5\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

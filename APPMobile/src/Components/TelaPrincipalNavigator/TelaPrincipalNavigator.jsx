@@ -15,7 +15,10 @@ const Drawer = createDrawerNavigator();
 
 const TelaPrincipalNavigator = () => {
   const [user, setUser] = useState(null);
-  
+
+  const handleFilter = () => {
+    setShowModal(true);
+  };
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -28,24 +31,24 @@ const TelaPrincipalNavigator = () => {
 
   return (
     <Drawer.Navigator
-      initialRouteName="TelaPrincipal"
-      drawerContent={(props) => <MenuUsuario {...props} user={user} />}
-      screenOptions={{
-        headerStyle: {
-          backgroundColor: "#F9C200",
-        },
-      }}
-    >
-      <Drawer.Screen
-        name="TelaPrincipal"
-        component={TelaPrincipal}
-        options={{ title: null }}
-      />
+    initialRouteName="TelaPrincipal"
+    drawerContent={(props) => <MenuUsuario {...props} user={user} />}
+    screenOptions={({}) => ({
+      headerStyle: {
+        backgroundColor: "#F9C200",
+      },
+    })}
+  >
+    <Drawer.Screen
+      name="TelaPrincipal"
+      children={(props) => <TelaPrincipal {...props} onFilterPress={handleFilter} />}
+      options={{ title: null, headerShown: true }}
+    />
 
       <Drawer.Screen
         name="PerfilUsuario"
         component={PerfilUsuario}
-        options={{ title: null }}
+        options={{ title: "PetFeliz" }}
       />
 
       <Drawer.Screen
@@ -80,6 +83,8 @@ const TelaPrincipalNavigator = () => {
         options={{ title: null }}
       />
     </Drawer.Navigator>
+
+    
   );
 };
 
