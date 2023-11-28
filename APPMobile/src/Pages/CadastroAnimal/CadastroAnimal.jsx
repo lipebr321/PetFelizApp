@@ -22,7 +22,7 @@ const CadastroAnimal = () => {
   const [Castrado, setCastrado] = useState("");
   const [Foto_Pet] = useState("");
   const [Base64, setBase64] = useState(null);
-  const [Cod_Usuario, setCod_Usuario] = useState("");
+  const [cod_Usuario, setCod_Usuario] = useState("");
   const [Nome_Foto] = useState("");
   const [Especie, setEspecie] = useState({
     Nome_Especie: "",
@@ -65,20 +65,34 @@ const CadastroAnimal = () => {
   };
 
   useEffect(() => {
-    const usuarioLogado = AuthContextFunctions.CheckUserLogin();
-
-    if (usuarioLogado) {
-      const userData = AuthContextFunctions.GetUserData();
-      try {
-        const userId = userData.Cod_Usuario;
-        setCod_Usuario(userId);
-      } catch (error) {
-        console.error("Erro ao analisar os dados do usuário:", error);
+    const fetchUserData = async () => {
+      const usuarioLogado  = await AuthContextFunctions.CheckUserLogin();
+  
+      if (usuarioLogado) {
+        try {
+          debugger;
+          const userData = await AuthContextFunctions.GetUserData();
+          const obj = JSON.parse(userData);
+          console.log(obj);
+          const userId = obj.Cod_Usuario;
+          setCod_Usuario(userId);
+  
+          alert(JSON.stringify(userData));
+        } catch (error) {
+          console.error("Erro ao analisar os dados do usuário:", error);
+        }
+      } else {
+        navigation.navigate("TelaDeLogin");
       }
-    } else {
-      navigation.navigate("TelaDeLogin");
-    }
+    };
+  
+    fetchUserData();
   }, []);
+  
+  
+  
+  
+  
 
   async function selecionarImagem() {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -112,7 +126,7 @@ const CadastroAnimal = () => {
         Nome_Foto,
         Foto_Pet,
         Base64,
-        Cod_Usuario,
+        cod_Usuario,
       };
 
       if (!AuthContextFunctions.CheckUserLogin()) {
@@ -136,6 +150,7 @@ const CadastroAnimal = () => {
         );
 
         if (response.status === 200) {
+          alert(JSON.stringify(body.cod_Usuario));
           alert("Cadastro realizado com sucesso");
         }
       } catch (error) {

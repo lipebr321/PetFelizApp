@@ -54,10 +54,10 @@ async function CheckUserLogin() {
     }
 
     const userDataString = await AsyncStorage.getItem("userData");
-    //const userData = JSON.parse(userDataString);
+    const userData = JSON.parse(userDataString);
     const actualDate = Date.parse(new Date()) / 1000;
 
-    if (actualDate > userDataString.exp) {
+    if (actualDate > userData.exp) { 
       await AsyncStorage.removeItem("jwt");
       await AsyncStorage.removeItem("userData");
       return false;
@@ -70,6 +70,7 @@ async function CheckUserLogin() {
   }
 }
 
+
 const fazerLogout = async (navigation) => {
   try {
     await AsyncStorage.removeItem("jwt");
@@ -80,10 +81,23 @@ const fazerLogout = async (navigation) => {
   }
 };
 
+async function GetCodUsuario() {
+  try {
+    const userDataString = await AsyncStorage.getItem("userData");
+    const userData = JSON.parse(userDataString);
+    return userData.Cod_Usuario;
+  } catch (error) {
+    console.error("Erro ao recuperar Cod_Usuario:", error);
+    return null;
+  }
+}
+
+
 export const AuthContextFunctions = {
   SaveJWT,
   GetUserData,
   GenerateHeader,
   CheckUserLogin,
   fazerLogout,
+  GetCodUsuario
 };

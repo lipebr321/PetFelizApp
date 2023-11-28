@@ -142,7 +142,7 @@ useEffect(() => {
     showsVerticalScrollIndicator={false}
     style={styles.container}>
 
-<View style={styles.alignRight}>
+      <View style={styles.alignRight}>
   <TouchableOpacity onPress={handleFilter} style={styles.button}>
     <Image
       source={require("/src/Components/images/filtro.png")}

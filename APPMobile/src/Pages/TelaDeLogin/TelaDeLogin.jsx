@@ -58,11 +58,11 @@ function TelaDeLogin({ navigation }) {
     setErrors({ ...errors, [name]: "" });
     setMensagem("");
   };
-
+  
   const handleLogin = async () => {
     try {
       setLoading(true);
-
+  
       if (!usuario.Email || !usuario.Senha) {
         setMensagem("Preencha ambos os campos.");
         setErrors({
@@ -71,12 +71,12 @@ function TelaDeLogin({ navigation }) {
         });
         return;
       }
-
+  
       const response = await axios.post(
         "https://petfeliz.azurewebsites.net/api/Auth/Login",
         usuario
       );
-
+  
       if (response.status === 200) {
         await AuthContextFunctions.SaveJWT(response.data.token);
         navigation.navigate("TelaPrincipalNavigator");
@@ -90,6 +90,7 @@ function TelaDeLogin({ navigation }) {
       setLoading(false);
     }
   };
+  
 
   return (
     <View style={styles.container}>
