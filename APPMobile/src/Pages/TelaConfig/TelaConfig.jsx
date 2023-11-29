@@ -17,7 +17,7 @@ const TelaConfig = ({ navigation }) => {
   }, []);
 
   async function InitializeUser() {
-    let userData = await AuthContextFunctions.GetUserData();
+    let userData = await AuthContextFunctions.GetAndUserData();
     setUser(userData);
   }
 const voltarTelaAnterior = () => {

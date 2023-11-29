@@ -3,21 +3,24 @@ import {
   View,
   Text,
   TextInput,
-  Button,
+  Image,
   Picker,
   TouchableOpacity,
   ScrollView,
+  Modal,
 } from "react-native";
 import axios from "axios";
 import { AuthContextFunctions } from "../../../AuthContext";
 import * as ImagePicker from "expo-image-picker";
+import styles from '../../Pages/CadastroAnimal/styles';
+import Footer from '../../Components/Footer/Footer';
 
 const CadastroAnimal = () => {
-  const [Nome_Pet, setNome_Pet] = useState("123");
+  const [Nome_Pet, setNome_Pet] = useState("");
   const [Porte_Pet, setPorte_Pet] = useState("");
-  const [Sexo_Pet, setSexo_Pet] = useState("M");
+  const [Sexo_Pet, setSexo_Pet] = useState("");
   const [Idade_Pet, setIdade_Pet] = useState("");
-  const [Descricao_Pet, setDescricao_Pet] = useState("123");
+  const [Descricao_Pet, setDescricao_Pet] = useState("");
   const [Status_Pet, setStatus_Pet] = useState("");
   const [Castrado, setCastrado] = useState("");
   const [Foto_Pet] = useState("");
@@ -59,6 +62,11 @@ const CadastroAnimal = () => {
   const status = ["Valido", "Vencido"];
 
   const [errors, setErrors] = useState({});
+  const [showModal, setShowModal] = useState(false);
+
+  const handleOK = () => {
+    navigation.navigate("TelaPrincipal");
+  };
 
   const validateForm = async () => {
     return {};
@@ -130,50 +138,50 @@ const CadastroAnimal = () => {
       };
 
       if (!AuthContextFunctions.CheckUserLogin()) {
-        console.log(
-          "Usuário não logado. Redirecionando para a página de login."
-        );
+        console.log("Usuário não logado. Redirecionando para a página de login.");
         return;
       }
-
+  
       const headers = await AuthContextFunctions.GenerateHeader();
-
+  
       const config = {
         headers: headers,
       };
-
+  
       try {
         const response = await axios.post(
           "https://petfeliz.azurewebsites.net/api/PetFeliz/CadastrarPet",
           body,
           config
         );
-
+  
         if (response.status === 200) {
-          alert(JSON.stringify(body.cod_Usuario));
-          alert("Cadastro realizado com sucesso");
+          setShowModal(true);
         }
       } catch (error) {
         console.error("Erro ao fazer a solicitação:", error);
-        alert("teste");
+        alert("Erro ao cadastrar");
       }
     }
   };
 
   return (
-    <ScrollView>
-      <View style={{ margin: 16 }}>
-        <Text style={{ fontSize: 24, marginBottom: 16 }}>
+    <View 
+    showsVerticalScrollIndicator={false}
+    style={styles.container}> 
+      <ScrollView   
+    showsVerticalScrollIndicator={false}
+    style={styles.container}>
+      <View style={styles.cadastroForm}>
+      <View style={styles.balaoAmarelo}>
+        <Text style={styles.cadastroTitle}>
           Informações do Pet
         </Text>
+        </View>
+      
 
         <TextInput
-          style={{
-            height: 40,
-            borderColor: "gray",
-            borderWidth: 1,
-            marginBottom: 8,
-          }}
+          style={styles.input}
           placeholder="Nome do animal"
           onChangeText={(text) => setNome_Pet(text)}
           value={Nome_Pet}
@@ -183,12 +191,7 @@ const CadastroAnimal = () => {
         )}
 
         <TextInput
-          style={{
-            height: 40,
-            borderColor: "gray",
-            borderWidth: 1,
-            marginBottom: 8,
-          }}
+        style={styles.input}
           placeholder="Especie do animal"
           onChangeText={(text) =>
             setEspecie({ ...Especie, Nome_Especie: text })
@@ -200,12 +203,7 @@ const CadastroAnimal = () => {
         )}
 
         <TextInput
-          style={{
-            height: 40,
-            borderColor: "gray",
-            borderWidth: 1,
-            marginBottom: 8,
-          }}
+      style={styles.input}
           placeholder="Raça"
           onChangeText={(text) => setRaca({ ...Raca, Nome_Raca: text })}
           value={Raca.Nome_Raca}
@@ -215,12 +213,7 @@ const CadastroAnimal = () => {
         )}
 
         <TextInput
-          style={{
-            height: 40,
-            borderColor: "gray",
-            borderWidth: 1,
-            marginBottom: 8,
-          }}
+     style={styles.input}
           placeholder="Tipo"
           onChangeText={(text) => setAnimal({ ...Animal, Nome_Animal: text })}
           value={Animal.Nome_Animal}
@@ -232,7 +225,7 @@ const CadastroAnimal = () => {
         <Picker
           selectedValue={Idade_Pet}
           onValueChange={(itemValue) => setIdade_Pet(itemValue)}
-          style={{ height: 50, width: "100%", marginBottom: 8 }}
+          style={styles.Picker}
         >
           <Picker.Item label="Idade" value="Selecione a Idade" />
           {idade_Pet.map((option) => (
@@ -243,7 +236,7 @@ const CadastroAnimal = () => {
         <Picker
           selectedValue={Porte_Pet}
           onValueChange={(itemValue) => setPorte_Pet(itemValue)}
-          style={{ height: 50, width: "100%", marginBottom: 8 }}
+          style={styles.Picker}
         >
           <Picker.Item label="Porte" value="Selecione o Porte" />
           {porte_Pet.map((option) => (
@@ -254,7 +247,7 @@ const CadastroAnimal = () => {
         <Picker
           selectedValue={Castrado}
           onValueChange={(itemValue) => setCastrado(itemValue)}
-          style={{ height: 50, width: "100%", marginBottom: 8 }}
+          style={styles.Picker}
         >
           <Picker.Item label="Animal Castrado?" value="Selecione a opção" />
           {castrado.map((option) => (
@@ -265,7 +258,7 @@ const CadastroAnimal = () => {
         <Picker
           selectedValue={Sexo_Pet}
           onValueChange={(itemValue) => setSexo_Pet(itemValue)}
-          style={{ height: 50, width: "100%", marginBottom: 8 }}
+          style={styles.Picker}
         >
           <Picker.Item label="Sexo do animal?" value="Selecione o Sexo" />
           {sexo_Pet.map((option) => (
@@ -276,7 +269,7 @@ const CadastroAnimal = () => {
         <Picker
           selectedValue={Status_Pet}
           onValueChange={(itemValue) => setStatus_Pet(itemValue)}
-          style={{ height: 50, width: "100%", marginBottom: 8 }}
+          style={styles.Picker}
         >
           <Picker.Item label="Status?" value="Selecione uma opção" />
           {status_Pet.map((option) => (
@@ -289,7 +282,7 @@ const CadastroAnimal = () => {
           onValueChange={(itemValue) =>
             setVacina({ ...Vacina, status: itemValue })
           }
-          style={{ height: 50, width: "100%", marginBottom: 8 }}
+          style={styles.Picker}
         >
           <Picker.Item label="Valido?" value="Selecione uma opção" />
           {status.map((option) => (
@@ -298,24 +291,14 @@ const CadastroAnimal = () => {
         </Picker>
 
         <TextInput
-          style={{
-            height: 40,
-            borderColor: "gray",
-            borderWidth: 1,
-            marginBottom: 8,
-          }}
+        style={styles.input}
           placeholder="Tipo da vacina"
           onChangeText={(text) => setVacina({ ...Vacina, descricao: text })}
           value={Vacina.descricao}
         />
 
         <TextInput
-          style={{
-            height: 40,
-            borderColor: "gray",
-            borderWidth: 1,
-            marginBottom: 8,
-          }}
+     style={styles.input}
           placeholder="Descrição"
           onChangeText={(text) => setDescricao_Pet(text)}
           value={Descricao_Pet}
@@ -326,31 +309,44 @@ const CadastroAnimal = () => {
           onChangeText={handleDataVacinaChange}
           value={Vacina.data_vacina}
           type="date"
-          style={{
-            height: 40,
-            borderColor: "gray",
-            borderWidth: 1,
-            marginBottom: 10,
-          }}
+          style={styles.input}
         />
 
-         <Button title="Selecione a imagem" onPress={selecionarImagem} />
+      <TouchableOpacity style={styles.SelecImageContainer} onPress={selecionarImagem}>
+      <Text style={styles.CamText}>Selecionar imagem</Text>
+      <Image source={require("/src/Components/images/camera.png")} style={styles.CamIcon} />
+    </TouchableOpacity>
           
         <TouchableOpacity
-          style={{
-            backgroundColor: "blue",
-            padding: 10,
-            borderRadius: 5,
-            marginTop: 16,
-          }}
+          style={styles.cadastrarButton}
           onPress={handleSubmit}
         >
-          <Text style={{ color: "white", textAlign: "center" }}>
+          <Text style={styles.textCadastrar}>
             Cadastrar pet
           </Text>
         </TouchableOpacity>
       </View>
+      <Modal
+        visible={showModal}
+        animationType="slide"
+        transparent={true}
+        onRequestClose={() => setShowModal(false)}
+      >
+     <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>
+                Animal Cadastrado com sucesso!
+            </Text>
+            <TouchableOpacity style={styles.okButton} onPress={handleOK}>
+              <Text style={styles.okButtonText}>OK</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </ScrollView>
+    <Footer/>
+    </View>
+   
   );
 };
 

@@ -16,9 +16,6 @@ const Drawer = createDrawerNavigator();
 const TelaPrincipalNavigator = () => {
   const [user, setUser] = useState(null);
 
-  const handleFilter = () => {
-    setShowModal(true);
-  };
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -41,8 +38,8 @@ const TelaPrincipalNavigator = () => {
   >
     <Drawer.Screen
       name="TelaPrincipal"
-      children={(props) => <TelaPrincipal {...props} onFilterPress={handleFilter} />}
-      options={{ title: null, headerShown: true }}
+      component={TelaPrincipal}
+      options={{ title: "PetFeliz" }}
     />
 
       <Drawer.Screen
@@ -54,19 +51,19 @@ const TelaPrincipalNavigator = () => {
       <Drawer.Screen
         name="SobreNos"
         component={SobreNos}
-        options={{ title: null }}
+        options={{ title: "PetFeliz" }}
       />
 
       <Drawer.Screen
         name="TelaConfig"
         component={TelaConfig}
-        options={{ title: null }}
+        options={{ title: "PetFeliz" }}
       />
 
       <Drawer.Screen
         name="CadastroAnimal"
         component={CadastroAnimal}
-        options={{ title: null }}
+        options={{ title: "PetFeliz" }}
       />
 
       <Drawer.Screen name="FAQ" component={FAQ} options={{ title: null }} />
@@ -74,13 +71,13 @@ const TelaPrincipalNavigator = () => {
       <Drawer.Screen
         name="PetsUsuario"
         component={PetsUsuario}
-        options={{ title: null }}
+        options={{ title: "PetFeliz" }}
       />
 
       <Drawer.Screen
         name="TelaPet"
         component={TelaPet}
-        options={{ title: null }}
+        options={{ title: "PetFeliz" }}
       />
     </Drawer.Navigator>
 

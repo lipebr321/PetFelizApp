@@ -1,116 +1,125 @@
 const styles = {
-    container: {
-      flex: 1,
-      alignItems: "center",
-      justifyContent: "center",
-      backgroundColor: "white",
-    },
-  
-    form: {
-      flex: 1,
-      alignItems: "center",
-      backgroundColor: "#F9C200",
-      padding: 10,
-      width: "100%",
-      alignItems: "center",
-      shadowColor: "black",
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.4,
-      shadowRadius: 4,
-      elevation: 4,
-    },
-  
-    titulo: {
-      fontSize: 24,
-  
-    },
-  
-    dropdown: {
-      width: 300,
-      height: 40,
-      marginTop: 5,
-      shadowColor: "black",
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.4,
-      shadowRadius: 4,
-      elevation: 4,
-      borderRadius: 4,
-    },
-  
-    input: {
-      width: 300,
-      height: 50,
-      borderColor: "gray",
-      marginTop: 10,
-      paddingLeft: 10,
-      borderWidth: 1,
-      borderRadius: 5,
-      fontSize: 14,
-      backgroundColor: 'white',
-      shadowColor: "black",
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.4,
-      shadowRadius: 4,
-      elevation: 4,
-    },
-  
-    descricao: {
-      width: 300,
-      height: 110,
-      borderColor: "gray",
-      marginTop: 10,
-      paddingLeft: 10,
-      borderRadius: 10,
-      fontSize: 14,
-      backgroundColor: 'white',
-      shadowColor: "black",
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.4,
-      shadowRadius: 4,
-      elevation: 4,
-    },
-  
-    cadastrarButton: {
-      backgroundColor: "#F9C200",
-      borderRadius: 10,
-      width: 120,
-      height: 40,
-      alignItems: "center",
-      shadowColor: "black",
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.4,
-      shadowRadius: 4,
-      elevation: 4,
-      marginBottom: 30,
-      marginTop: 20,
-      paddingVertical: 10,
-    },
-  
-    textCadastrar: {
-      color: "white",
-      textAlign: "center",
-      fontSize: 16,
-    },
-  
-    labelError: {
-      fontSize: 16,
-      color: "#ff375b",
-      marginBottom: 2,
-    },
-  
-    imageContainer: {
-      marginLeft: 200,
-      marginTop: 20,
-      alignItems:'center'
-    },
-    menuIcon: {
-      width: 30,
-      height: 30,
-    },
-    menuItem: {
-      fontSize: 10,
-      padding: 5,
-    },
-  };
+  container: {
+    flex: 1,
+    padding: 10,
+    backgroundColor: "white",
+  },
+  cadastroForm: {
+    flex: 2,
+    alignItems: "center",
+  },
+  balaoAmarelo: {
+    backgroundColor: "#F9C200",
+    padding: 10,
+    alignItems: "center",
+    shadowColor: 'black',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.4,
+    shadowRadius: 4,
+    elevation: 4,
+    width: '100%',
+    height: 70,
+    marginBottom: 30,
+    borderRadius: 60,
+  },
+  cadastroTitle: {
+    fontSize: 24,
+  },
+  input: {
+    width: 330,
+    height: 50,
+    borderColor: "gray",
+    marginBottom: 12,
+    paddingLeft: 10,
+    borderRadius: 10,
+    fontSize: 20,
+    shadowColor: "black",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.4,
+    shadowRadius: 4,
+    elevation: 4,
+  },
+  Picker: {
+    width: 330,
+    height: 50,
+    borderColor: "gray",
+    marginBottom: 12,
+    paddingLeft: 10,
+    borderRadius: 10,
+    fontSize: 20,
+    shadowColor: "black",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.4,
+    shadowRadius: 4,
+    elevation: 4,
+  },
+  cadastrarButton: {
+    backgroundColor: "#F9C200",
+    borderRadius: 10,
+    width: 300,
+    height: 70,
+    alignItems: "center",
+    shadowColor: "black",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.4,
+    shadowRadius: 4,
+    elevation: 4,
+    paddingVertical: 10,
+    marginBottom: 30,
+  },
+  textCadastrar: {
+    color: "white",
+    textAlign: "center",
+    fontSize: 30,
+    fontWeight: "bold",
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalContent: {
+    width: 300,
+    backgroundColor: "white",
+    padding: 20,
+    borderRadius: 10,
+    alignItems: "center",
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 20,
+  },
+  okButton: {
+    backgroundColor: "#F9C200",
+    borderRadius: 10,
+    width: 100,
+    height: 40,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  okButtonText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
 
-  export default styles;
+  SelecImageContainer: {
+    marginLeft: 200,
+    marginTop: 20,
+    marginBottom:20,
+    alignItems:'center'
+  },
+  CamIcon: {
+    width: 48,
+    height: 48,
+    resizeMode: 'contain',
+  },
+  CamText: {
+    fontSize: 15,
+    marginBottom: 5
+  },
+};
+
+export default styles;

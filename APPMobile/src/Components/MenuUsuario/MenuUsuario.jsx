@@ -4,18 +4,18 @@ import { AuthContextFunctions } from "../../../AuthContext";
 
 
 
-const MenuUsuario = ({ navigation }) => {
+const MenuUsuario = ({ navigation  }) => {
   const userImage = require("/src/Components/images/gatinho.png");
 
-  const [user, setUser] = useState({});
   const [showModal, setShowModal] = useState(false);
+  const [user, setUser] = useState({});
 
   useEffect(() => {
     InitializeUser();
   }, []);
 
   async function InitializeUser() {
-    let userData = await AuthContextFunctions.GetUserData();
+    let userData = await AuthContextFunctions.GetAndUserData();
     setUser(userData);
   }
 

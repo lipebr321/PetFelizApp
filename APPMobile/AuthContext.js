@@ -81,13 +81,13 @@ const fazerLogout = async (navigation) => {
   }
 };
 
-async function GetCodUsuario() {
+async function GetAndUserData() {
   try {
     const userDataString = await AsyncStorage.getItem("userData");
-    const userData = JSON.parse(userDataString);
-    return userData.Cod_Usuario;
+    console.log(userDataString);
+    return JSON.parse(userDataString);
   } catch (error) {
-    console.error("Erro ao recuperar Cod_Usuario:", error);
+    console.error("Error getting data from AsyncStorage:", error);
     return null;
   }
 }
@@ -99,5 +99,5 @@ export const AuthContextFunctions = {
   GenerateHeader,
   CheckUserLogin,
   fazerLogout,
-  GetCodUsuario
+  GetAndUserData,
 };
