@@ -210,7 +210,7 @@ const TelaDeCadastro = ({ navigation }) => {
         >
           Ja sou cadastrado!
         </Text>
-        <Footer style={styles.footer}/>
+        
       </View>
 
       <Modal
@@ -233,7 +233,7 @@ const TelaDeCadastro = ({ navigation }) => {
           </View>
         </View>
       </Modal>
-     
+      <Footer style={styles.footer}/>
     </View>
   );
 };

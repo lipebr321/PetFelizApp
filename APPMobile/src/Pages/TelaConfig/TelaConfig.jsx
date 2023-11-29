@@ -113,7 +113,7 @@ const handleUpdateProfile = () => {
         >
           Voltar</Text>
           <TouchableOpacity style={styles.Button} onPress={openModal}>
-      <Text>Alterar perfil</Text>
+      <Text style={styles.ButtonText}  >Alterar perfil</Text>
     </TouchableOpacity>
         </View>
       
@@ -121,15 +121,22 @@ const handleUpdateProfile = () => {
 
       <Footer />
       <Modal visible={showModal} animationType="slide">
-        <View>
-          <TextInput value={user.Nome_Usuario} onChangeText={(text) => {/* Atualiza o estado */}} />
-          <TextInput value={user.Email} onChangeText={(text) => {/* Atualiza o estado */}} />
-          <TextInput value={user.Nome_Log} onChangeText={(text) => {/* Atualiza o estado */}} />
-          <TextInput value={user.Nome_Estado} onChangeText={(text) => {/* Atualiza o estado */}} />
-          <TextInput value={user.Nome_Cidade} onChangeText={(text) => {/* Atualiza o estado */}} />
-          <TextInput value={user.Telefone} onChangeText={(text) => {/* Atualiza o estado */}} />
-          <Button title="Salvar Alterações" onPress={handleUpdateProfile} />
-          <Button title="Cancelar" onPress={closeModal} />
+      <View style={styles.modalContainer}>
+        <View style={styles.modalContent}>
+        <View style={styles.balaoAmarelo}> <Text style={styles.modalTitle}>Deseja alterar suas informações?</Text></View>
+          <TextInput  style={styles.input} value={user.Nome_Usuario} onChangeText={(text) => {/* Atualiza o estado */}} />
+          <TextInput  style={styles.input} value={user.Email} onChangeText={(text) => {/* Atualiza o estado */}} />
+          <TextInput  style={styles.input} value={user.Nome_Log} onChangeText={(text) => {/* Atualiza o estado */}} />
+          <TextInput  style={styles.input} value={user.Nome_Estado} onChangeText={(text) => {/* Atualiza o estado */}} />
+          <TextInput  style={styles.input} value={user.Nome_Cidade} onChangeText={(text) => {/* Atualiza o estado */}} />
+          <TextInput  style={styles.input} value={user.Telefone} onChangeText={(text) => {/* Atualiza o estado */}} />
+          <TouchableOpacity style={styles.Button} onPress={handleUpdateProfile}>
+              <Text style={styles.ButtonText} >Salvar alterações</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.Button} onPress={closeModal}>
+              <Text style={styles.ButtonText} >Cancelar</Text>
+            </TouchableOpacity>
+        </View>
         </View>
       </Modal>
     </View>

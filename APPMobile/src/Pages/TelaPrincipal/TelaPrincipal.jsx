@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import {  View, ActivityIndicator,  Text,  ScrollView,  TouchableOpacity,  Image,  Picker,  Modal, } from "react-native";
 import axios from "axios";
 import styles from "../../Pages/TelaPrincipal/styles";
+import Footer from "../../Components/Footer/Footer";
 
 const TelaPrincipal = ({ navigation }) => {
   const [loading, setLoading] = useState(true);
@@ -165,6 +166,7 @@ useEffect(() => {
             <Image source={{ uri: pet.foto_Pet }} style={styles.image} />
 
             <Text style={styles.nome}>{pet.nome_Pet}</Text>
+            <Text style={styles.descricao}>{pet.cidade.nome_Cidade}/{pet.estado.nome_Estado}</Text>
             <Text style={styles.descricao}>{pet.descricao_Pet}</Text>
           </View>
         </TouchableOpacity>
@@ -290,6 +292,7 @@ useEffect(() => {
 </View>
       </Modal>
     </ScrollView>
+    <Footer/>
   </View>
     
   );

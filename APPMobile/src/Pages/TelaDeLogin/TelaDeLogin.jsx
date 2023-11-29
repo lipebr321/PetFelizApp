@@ -42,7 +42,6 @@ function TelaDeLogin({ navigation }) {
   useEffect(() => {
     ChecarLoginUsuario();
   }, []);
-
   async function ChecarLoginUsuario() {
     const usuarioLogado = await AuthContextFunctions.CheckUserLogin();
     if (usuarioLogado) {
@@ -58,9 +57,10 @@ function TelaDeLogin({ navigation }) {
     setErrors({ ...errors, [name]: "" });
     setMensagem("");
   };
-  
+
   const handleLogin = async () => {
     try {
+
       setLoading(true);
   
       if (!usuario.Email || !usuario.Senha) {

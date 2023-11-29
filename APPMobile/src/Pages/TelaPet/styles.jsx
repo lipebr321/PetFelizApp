@@ -92,5 +92,37 @@ const styles = {
       flexDirection: "row",
       marginVertical: 10,
     },
+    modalContainer: {
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: "rgba(0, 0, 0, 0.5)",
+    },
+    modalContent: {
+      width: 300,
+      backgroundColor: "white",
+      padding: 20,
+      borderRadius: 10,
+      alignItems: "center",
+    },
+    modalTitle: {
+      fontSize: 18,
+      fontWeight: "bold",
+      marginBottom: 20,
+    },
+    Button: {
+      backgroundColor: "#F9C200",
+      borderRadius: 10,
+      width: 100,
+      height: 40,
+      alignItems: "center",
+      justifyContent: "center",
+      marginBottom:10,
+    },
+    ButtonText: {
+      color: "white",
+      fontSize: 16,
+      fontWeight: "bold",
+    },
   };
   export default styles;

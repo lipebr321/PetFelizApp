@@ -31,13 +31,22 @@ const CadastroAnimal = () => {
     Nome_Especie: "",
   });
 
-  const [Raca, setRaca] = useState({
-    Nome_Raca: "",
-  });
+const [Animal, setAnimal] = useState({ Nome_Animal: '' });
+const [Raca, setRaca] = useState({ Nome_Raca: '' });
+const [selectedTipo, setSelectedTipo] = useState("");
+const [selectedRaca, setSelectedRaca] = useState("");
 
-  const [Animal, setAnimal] = useState({
-    Nome_Animal: "",
-  });
+const handleTipoChange = (tipoSelecionado) => {
+  setSelectedTipo(tipoSelecionado);
+  setSelectedRaca('');
+  setAnimal({ Nome_Animal: tipoSelecionado }); // Atualiza o tipo de animal selecionado
+};
+
+const handleRacaChange = (selectedRaca) => {
+  setSelectedRaca(selectedRaca);
+  setRaca({ Nome_Raca: selectedRaca }); // Atualiza a raça selecionada
+};
+
 
   const [Vacina, setVacina] = useState({
     data_vacina: "",
@@ -49,13 +58,54 @@ const CadastroAnimal = () => {
     setVacina({ ...Vacina, data_vacina: text });
   };
 
+
+  
+  const racasCao = [
+    "Akita",
+    "Bulldog",
+    "Chihuahua",
+    "Dálmata",
+    "Labrador Retriever",
+    "Pastor Alemão",
+    "Poodle",
+    "Golden Retriever",
+    "Rottweiler",
+    "Boxer",
+    "Husky Siberiano",
+    "Vira-Lata",
+    "Outros"
+  ];
+  
+  const racasGato = [
+    "Siamês",
+    "Persa",
+    "Maine Coon",
+    "Sphynx",
+    "Bengal",
+    "Ragdoll",
+    "British Shorthair",
+    "Siberiano",
+    "Angorá",
+    "Manx",
+    "Vira-Lata",
+    "Outros"
+  ];
+  
+  
+
   const idade_Pet = [
     "Entre 0 e 1",
     "Entre 1 e 4",
     "Entre 4 e 10",
     "Mais de 10",
   ];
-  const porte_Pet = ["Pequeno Porte", "Médio Porte", "Grande Porte"];
+  const porte_Pet = [
+    { value: "anao", label: "Anão" },
+    { value: "pequeno", label: "Pequeno Porte" },
+    { value: "medio", label: "Médio Porte" },
+    { value: "grande", label: "Grande Porte" },
+    { value: "Molosso", label: "Molosso" },
+  ];
   const sexo_Pet = ["M", "F"];
   const castrado = ["Sim", "Não"];
   const status_Pet = ["Disponivel"];
@@ -78,14 +128,12 @@ const CadastroAnimal = () => {
   
       if (usuarioLogado) {
         try {
-          debugger;
           const userData = await AuthContextFunctions.GetUserData();
           const obj = JSON.parse(userData);
           console.log(obj);
           const userId = obj.Cod_Usuario;
           setCod_Usuario(userId);
-  
-          alert(JSON.stringify(userData));
+
         } catch (error) {
           console.error("Erro ao analisar os dados do usuário:", error);
         }
@@ -202,25 +250,32 @@ const CadastroAnimal = () => {
           <Text style={{ color: "red" }}>{errors.Nome_Pet}</Text>
         )}
 
-        <TextInput
-      style={styles.input}
-          placeholder="Raça"
-          onChangeText={(text) => setRaca({ ...Raca, Nome_Raca: text })}
-          value={Raca.Nome_Raca}
-        />
-        {errors.Nome_Raca && (
-          <Text style={{ color: "red" }}>{errors.Nome_Raca}</Text>
-        )}
+<Picker
+  selectedValue={selectedTipo}
+  onValueChange={(itemValue) => handleTipoChange(itemValue)}
+  style={styles.Picker}
+>
+  <Picker.Item label="Selecione o tipo" value="" />
+  <Picker.Item label="Cachorro" value="cao" />
+  <Picker.Item label="Gato" value="gato" />
+</Picker>
 
-        <TextInput
-     style={styles.input}
-          placeholder="Tipo"
-          onChangeText={(text) => setAnimal({ ...Animal, Nome_Animal: text })}
-          value={Animal.Nome_Animal}
-        />
-        {errors.Nome_Animal && (
-          <Text style={{ color: "red" }}>{errors.Nome_Animal}</Text>
-        )}
+<Picker
+  selectedValue={selectedRaca}
+  onValueChange={(itemValue) => handleRacaChange(itemValue)}
+  style={styles.Picker}
+>
+  <Picker.Item label="Selecione a raça" value="" />
+  {selectedTipo === 'cao' ? (
+    racasCao.map((raca) => (
+      <Picker.Item label={raca} value={raca} key={raca} />
+    ))
+  ) : selectedTipo === 'gato' ? (
+    racasGato.map((raca) => (
+      <Picker.Item label={raca} value={raca} key={raca} />
+    ))
+  ) : null}
+</Picker>
 
         <Picker
           selectedValue={Idade_Pet}
@@ -240,7 +295,7 @@ const CadastroAnimal = () => {
         >
           <Picker.Item label="Porte" value="Selecione o Porte" />
           {porte_Pet.map((option) => (
-            <Picker.Item label={option} value={option} key={option} />
+             <Picker.Item label={option.label} value={option.value} key={option.value} />
           ))}
         </Picker>
 

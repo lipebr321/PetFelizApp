@@ -3,7 +3,6 @@ import { jwtDecode } from "jwt-decode";
 
 async function SaveJWT(jwtData) {
   const userData = jwtDecode(jwtData);
-
   try {
     await AsyncStorage.setItem("jwt", jwtData);
     await AsyncStorage.setItem("userData", JSON.stringify(userData));
