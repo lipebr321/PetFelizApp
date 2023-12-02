@@ -4,8 +4,8 @@ import { AuthContextFunctions } from "../../../AuthContext";
 
 
 
+
 const MenuUsuario = ({ navigation  }) => {
-  const userImage = require("/src/Components/images/gatinho.png");
 
   const [showModal, setShowModal] = useState(false);
   const [user, setUser] = useState({});
@@ -39,7 +39,7 @@ const MenuUsuario = ({ navigation  }) => {
   return (
     <View style={styles.container}>
       <View style={styles.userInfoContainer}>
-        <Image source={userImage} style={styles.userImage} />
+        <Image  source={{ uri: 'https://testesluis.blob.core.windows.net/teste/gatinho.png' }} style={styles.userImage} />
         <Text style={styles.userName}>{user.Nome_Usuario}</Text>
       </View>
       <TouchableOpacity
@@ -49,8 +49,8 @@ const MenuUsuario = ({ navigation  }) => {
       >
         <View style={styles.menuItemContainer}>
           <Image
-            source={require("/src/Components/images/pata.png")}
-            style={styles.menuIcon}
+      source={{ uri: 'https://testesluis.blob.core.windows.net/teste/pata.png' }}
+      style={styles.menuIcon}
           />
           <Text style={styles.menuItem}>Meu perfil</Text>
         </View>
@@ -63,8 +63,8 @@ const MenuUsuario = ({ navigation  }) => {
       >
         <View style={styles.menuItemContainer}>
           <Image
-            source={require("/src/Components/images/cachorro.png")}
-            style={styles.menuIcon}
+      source={{ uri: 'https://testesluis.blob.core.windows.net/teste/cachorro.png' }}
+      style={styles.menuIcon}
           />
           <Text style={styles.menuItem}>Meus pets</Text>
         </View>
@@ -77,8 +77,8 @@ const MenuUsuario = ({ navigation  }) => {
       >
         <View style={styles.menuItemContainer}>
           <Image
-            source={require("/src/Components/images/gato.png")}
-            style={styles.menuIcon}
+      source={{ uri: 'https://testesluis.blob.core.windows.net/teste/gato.png' }}
+      style={styles.menuIcon}
           />
           <Text style={styles.menuItem}>Adotar Pet</Text>
         </View>
@@ -91,8 +91,8 @@ const MenuUsuario = ({ navigation  }) => {
       >
         <View style={styles.menuItemContainer}>
           <Image
-            source={require("/src/Components/images/ossinho.png")}
-            style={styles.menuIcon}
+      source={{ uri: 'https://testesluis.blob.core.windows.net/teste/ossinho.png' }}
+      style={styles.menuIcon}
           />
           <Text style={styles.menuItem}>Cadastrar pet</Text>
         </View>
@@ -105,8 +105,8 @@ const MenuUsuario = ({ navigation  }) => {
       >
         <View style={styles.menuItemContainer}>
           <Image
-            source={require("/src/Components/images/sobre.png")}
-            style={styles.menuIcon}
+      source={{ uri: 'https://testesluis.blob.core.windows.net/teste/sobre.png' }}
+      style={styles.menuIcon}
           />
           <Text style={styles.menuItem}>Sobre nós</Text>
         </View>
@@ -119,8 +119,8 @@ const MenuUsuario = ({ navigation  }) => {
       >
         <View style={styles.menuItemContainer}>
           <Image
-            source={require("/src/Components/images/ajuda.png")}
-            style={styles.menuIcon}
+      source={{ uri: 'https://testesluis.blob.core.windows.net/teste/ajuda.png' }}
+      style={styles.menuIcon}
           />
           <Text style={styles.menuItem}>Duvidas?</Text>
         </View>
@@ -132,8 +132,8 @@ const MenuUsuario = ({ navigation  }) => {
       >
         <View style={styles.menuItemContainer}>
           <Image
-            source={require("/src/Components/images/config.png")}
-            style={styles.menuIcon}
+      source={{ uri: 'https://testesluis.blob.core.windows.net/teste/config.png' }}
+      style={styles.menuIcon}
           />
           <Text style={styles.menuItem}>Configurações</Text>
         </View>
@@ -143,8 +143,8 @@ const MenuUsuario = ({ navigation  }) => {
       >
         <View style={styles.menuItemContainer}>
           <Image
-            source={require("/src/Components/images/sair.png")}
-            style={styles.menuIcon}
+      source={{ uri: 'https://testesluis.blob.core.windows.net/teste/sair.png' }}
+      style={styles.menuIcon}
           />
           <Text style={styles.menuItem}>Sair</Text>
         </View>

@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { View,  Text,  TextInput,
-  TouchableOpacity, Alert,  Modal } from "react-native";
+  TouchableOpacity, Alert,  Modal, ScrollView, ActivityIndicator } from "react-native";
 import axios from "axios";
-import Footer from "../../Components/Footer/Footer";
 import styles from '../../Pages/TelaDeCadastro/styles'
+import { SafeAreaView } from "react-native-safe-area-context";
+import Footer from "../../Components/Footer/Footer";
 
 const TelaDeCadastro = ({ navigation }) => {
   const [usuario, setUsuario] = useState({
@@ -26,6 +27,8 @@ const TelaDeCadastro = ({ navigation }) => {
   });
 
   const [cadastroSucesso, setCadastroSucesso] = useState(false);
+  const [loading, setLoading] = useState(false);
+
 
   const handleInputChange = (text, field) => {
     setUsuario((prevUsuario) => ({
@@ -70,6 +73,8 @@ const TelaDeCadastro = ({ navigation }) => {
 
   const handleSubmit = async () => {
     try {
+      setLoading(true);
+
       if (
         !usuario.Nome ||
         !usuario.CPF ||
@@ -83,6 +88,7 @@ const TelaDeCadastro = ({ navigation }) => {
         !usuario.Estado.Nome_Estado
       ) {
         Alert.alert("Preencha todos os campos");
+        setLoading(false);
 
         return;
       }
@@ -125,10 +131,20 @@ const TelaDeCadastro = ({ navigation }) => {
   };
 
   return (
-    <View Style={styles.container} >
-      <View style={styles.cadastroForm}>
-        <Text style={styles.cadastroTitle}>Faça seu Cadastro!</Text>
 
+    <View
+    showsVerticalScrollIndicator={false}
+    style={styles.container}>
+      <SafeAreaView>
+        <View style={styles.balaoAmarelo} > 
+        <Text style={styles.cadastroTitle}>Faça seu Cadastro!</Text>
+        </View>
+      </SafeAreaView>
+       
+      <ScrollView
+    showsVerticalScrollIndicator={false}
+  >
+     <View style={styles.cadastroForm}>
         <TextInput
           style={styles.input}
           placeholder="Nome"
@@ -199,11 +215,13 @@ const TelaDeCadastro = ({ navigation }) => {
           value={usuario.Logradouro.Numero}
           onChangeText={(text) => handleLogradouroInputChange(text, "Numero")}
         />
-
+        {loading ? (
+                <ActivityIndicator size="large" color="#F9C200" />
+              ) : (
         <TouchableOpacity style={styles.cadastrarButton} onPress={handleSubmit}>
           <Text style={styles.textCadastrar}>CADASTRAR</Text>
         </TouchableOpacity>
-
+               )}
         <Text
           style={styles.link}
           onPress={() => navigation.navigate("TelaDeLogin")}
@@ -212,7 +230,7 @@ const TelaDeCadastro = ({ navigation }) => {
         </Text>
         
       </View>
-
+        </ScrollView>
       <Modal
         animationType="slide"
         transparent={true}
@@ -233,8 +251,9 @@ const TelaDeCadastro = ({ navigation }) => {
           </View>
         </View>
       </Modal>
-      <Footer style={styles.footer}/>
+        <Footer/>
     </View>
+    
   );
 };
 

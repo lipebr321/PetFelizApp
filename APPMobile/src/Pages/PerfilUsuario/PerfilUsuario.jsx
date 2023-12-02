@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, Image, TouchableOpacity, Modal } from "react-native";
-import Usuario from "../../Components/images/gatinho.png";
 import Footer from "../../Components/Footer/Footer";
 import Linha from "../../Components/DivisorDeTela/DivisorDeTela";
 import styles from '../../Pages/PerfilUsuario/styles';
@@ -44,7 +43,8 @@ const PerfilUsuario = ({ navigation }) => {
       <Text style={styles.titulo}>Meu Perfil</Text>
 
       <View style={styles.avatarContainer}>
-        <Image source={Usuario} style={styles.avatar} />
+        <Image       source={{ uri: 'https://testesluis.blob.core.windows.net/teste/filtro.png' }}
+ style={styles.avatar} />
 
         <Text style={styles.nomeUsuario}>{user.Nome_Usuario}</Text>
       </View>

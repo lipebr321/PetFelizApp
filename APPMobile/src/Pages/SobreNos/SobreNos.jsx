@@ -1,6 +1,5 @@
 import React from "react";
 import { View, Text, Image } from "react-native";
-import logo from "../../Components/images/LogoGrande.png";
 import Footer from '../../Components/Footer/Footer';
 import styles from '../../Pages/SobreNos/styles';
 
@@ -23,7 +22,7 @@ const SobreNosScreen = () => {
           Convidamos você a se juntar a nós nesta missão importante de ajudar a
           encontrar lares amorosos e permanentes para animais necessitados.
         </Text>
-        <Image source={logo} style={styles.imagemPequena} />
+        <Image source={{ uri: 'https://testesluis.blob.core.windows.net/teste/LogoGrande.png' }} style={styles.imagemPequena} />
       </View>
 
       <Text style={styles.paragrafo}>
@@ -32,7 +31,7 @@ const SobreNosScreen = () => {
       </Text>
 
       <View style={styles.paragrafoImagemContainer}>
-        <Image source={logo} style={styles.imagemPequena} />
+        <Image source={{ uri: 'https://testesluis.blob.core.windows.net/teste/LogoGrande.png' }} style={styles.imagemPequena} />
         <Text style={styles.paragrafo}>
           Estamos comprometidos em ajudar os animais necessitados a encontrar
           suas famílias amorosas, oferecendo serviços de adoção, doação e

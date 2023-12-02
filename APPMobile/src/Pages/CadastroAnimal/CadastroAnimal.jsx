@@ -39,12 +39,12 @@ const [selectedRaca, setSelectedRaca] = useState("");
 const handleTipoChange = (tipoSelecionado) => {
   setSelectedTipo(tipoSelecionado);
   setSelectedRaca('');
-  setAnimal({ Nome_Animal: tipoSelecionado }); // Atualiza o tipo de animal selecionado
+  setAnimal({ Nome_Animal: tipoSelecionado });
 };
 
 const handleRacaChange = (selectedRaca) => {
   setSelectedRaca(selectedRaca);
-  setRaca({ Nome_Raca: selectedRaca }); // Atualiza a raça selecionada
+  setRaca({ Nome_Raca: selectedRaca });
 };
 
 
@@ -369,7 +369,7 @@ const handleRacaChange = (selectedRaca) => {
 
       <TouchableOpacity style={styles.SelecImageContainer} onPress={selecionarImagem}>
       <Text style={styles.CamText}>Selecionar imagem</Text>
-      <Image source={require("/src/Components/images/camera.png")} style={styles.CamIcon} />
+      <Image source={{ uri: 'https://testesluis.blob.core.windows.net/teste/camera.png' }} style={styles.CamIcon} />
     </TouchableOpacity>
           
         <TouchableOpacity

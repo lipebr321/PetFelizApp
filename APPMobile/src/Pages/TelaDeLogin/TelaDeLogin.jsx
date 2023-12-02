@@ -7,11 +7,11 @@ import {
   Image,
   ActivityIndicator,
 } from "react-native";
-import logo from "../../Components/images/LogoGrande.png";
 import axios from "axios";
 import Footer from "../../Components/Footer/Footer";
 import styles from "../../Pages/TelaDeLogin/styles";
 import { AuthContextFunctions } from "../../../AuthContext";
+import { jwtDecode } from "jwt-decode";
 
 function TelaDeLogin({ navigation }) {
   const [loading, setLoading] = useState(false);
@@ -60,7 +60,6 @@ function TelaDeLogin({ navigation }) {
 
   const handleLogin = async () => {
     try {
-
       setLoading(true);
   
       if (!usuario.Email || !usuario.Senha) {
@@ -78,24 +77,32 @@ function TelaDeLogin({ navigation }) {
       );
   
       if (response.status === 200) {
-        await AuthContextFunctions.SaveJWT(response.data.token);
+        const token = response.data.token;
+        console.log("Token obtido:", token);
+        await AuthContextFunctions.SaveJWT(token);
         navigation.navigate("TelaPrincipalNavigator");
       } else {
-        setMensagem("Usuário ou senha incorretos.");
+        if (response.status === 401) {
+          setMensagem("Usuário ou senha incorretos.");
+        } else {
+          setMensagem("Algo deu errado. Por favor, tente novamente mais tarde.");
+        }
       }
     } catch (error) {
       console.error("Erro no login:", error);
-      setMensagem("Erro no servidor. Por favor, tente novamente.");
+      setMensagem("Pedimos desculpas, erro no servidor. Por favor, tente novamente mais tarde.");
     } finally {
       setLoading(false);
     }
   };
   
+  
 
   return (
     <View style={styles.container}>
       <View style={styles.imgContainer}>
-        <Image source={logo} style={styles.img} />
+        <Image source={{ uri: 'https://testesluis.blob.core.windows.net/teste/LogoGrande.png' }}
+ style={styles.img} />
       </View>
       <View style={styles.formContainer}>
         <TextInput
