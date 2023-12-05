@@ -9,6 +9,7 @@ import CadastroAnimal from "../../Pages/CadastroAnimal/CadastroAnimal";
 import FAQ from "../../Pages/FAQ/FAQ";
 import PetsUsuario from "../../Pages/PetsUsuario/PetsUsuario";
 import TelaPet from "../../Pages/TelaPet/TelaPet";
+import AlterarPet from "../../Pages/AlterarPet/AlterarPet";
 import { AuthContextFunctions } from "../../../AuthContext";
 
 const Drawer = createDrawerNavigator();
@@ -79,6 +80,12 @@ const TelaPrincipalNavigator = () => {
         component={TelaPet}
         options={{ title: "PetFeliz" }}
       />
+      <Drawer.Screen
+            name="AlterarPet"
+            component={AlterarPet}
+            options={{ title: "PetFeliz" }}
+          />
+
     </Drawer.Navigator>
 
     

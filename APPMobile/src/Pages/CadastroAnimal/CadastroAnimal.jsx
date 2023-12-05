@@ -108,7 +108,7 @@ const handleRacaChange = (selectedRaca) => {
   ];
   const sexo_Pet = ["M", "F"];
   const castrado = ["Sim", "Não"];
-  const status_Pet = ["Disponivel"];
+  const status_Pet = ["Disponível"];
   const status = ["Valido", "Vencido"];
 
   const [errors, setErrors] = useState({});

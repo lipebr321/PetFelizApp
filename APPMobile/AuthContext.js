@@ -92,6 +92,22 @@ async function GetAndUserData() {
 }
 
 
+
+async function GetUserId() {
+  try {
+    const userDataString = await AsyncStorage.getItem("userData");
+    if (userDataString) {
+      const userData = JSON.parse(userDataString);
+      const userId = userData.Cod_Usuario; // Certifique-se de usar a chave correta para o userId
+      return userId;
+    }
+    return null;
+  } catch (error) {
+    console.error("Error getting user ID from AsyncStorage:", error);
+    return null;
+  }
+}
+
 export const AuthContextFunctions = {
   SaveJWT,
   GetUserData,
@@ -99,4 +115,6 @@ export const AuthContextFunctions = {
   CheckUserLogin,
   fazerLogout,
   GetAndUserData,
+  GetUserId, 
 };
+

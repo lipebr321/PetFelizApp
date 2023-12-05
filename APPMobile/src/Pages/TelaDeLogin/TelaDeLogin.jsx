@@ -11,7 +11,7 @@ import axios from "axios";
 import Footer from "../../Components/Footer/Footer";
 import styles from "../../Pages/TelaDeLogin/styles";
 import { AuthContextFunctions } from "../../../AuthContext";
-import { jwtDecode } from "jwt-decode";
+
 
 function TelaDeLogin({ navigation }) {
   const [loading, setLoading] = useState(false);

@@ -43,8 +43,8 @@ const PerfilUsuario = ({ navigation }) => {
       <Text style={styles.titulo}>Meu Perfil</Text>
 
       <View style={styles.avatarContainer}>
-        <Image       source={{ uri: 'https://testesluis.blob.core.windows.net/teste/filtro.png' }}
- style={styles.avatar} />
+        <Image source={{ uri: 'https://testesluis.blob.core.windows.net/teste/gatinho.png' }}
+          style={styles.avatar} />
 
         <Text style={styles.nomeUsuario}>{user.Nome_Usuario}</Text>
       </View>
