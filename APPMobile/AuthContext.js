@@ -117,4 +117,3 @@ export const AuthContextFunctions = {
   GetAndUserData,
   GetUserId, 
 };
-

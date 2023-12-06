@@ -15,10 +15,14 @@ const MenuUsuario = ({ navigation  }) => {
   }, []);
 
   async function InitializeUser() {
-    let userData = await AuthContextFunctions.GetAndUserData();
-    setUser(userData);
+    try {
+      const userData = await AuthContextFunctions.GetAndUserData();
+      setUser(userData);
+    } catch (error) {
+      console.error("Erro ao obter dados do usuário:", error);
+    }
   }
-
+  
   const { fazerLogout } = AuthContextFunctions;
 
   const handleLogout = () => {

@@ -16,9 +16,13 @@ import Footer from "../../Components/Footer/Footer";
         sexo: "",
         tipo: "",
         uf: "",
+        cidade: "",
+        castrado: "",
       });
 
       const [placeholderPorte, setPlaceholderPorte] = useState('Selecione o porte');
+      const [placeholderCastrado, setplaceholderCastrado]= useState('Status castração');
+      const [placeholderCidade, setplaceholderCidade] =  useState ('Selecione a cidade');
       const [placeholderSexo, setPlaceholderSexo] = useState('Selecione o sexo');
       const [placeholderTipo, setPlaceholderTipo] = useState('Selecione o tipo');
       const [placeholderUf, setPlaceholderUf] = useState('Selecione a UF');
@@ -40,6 +44,11 @@ import Footer from "../../Components/Footer/Footer";
         { value: "gato", label: "Gato" },
         { value: "cao", label: "Cão" },
       ];
+
+      const castrado = [
+        { value: "Sim", label: "Sim" },
+        { value: "Não", label: "Não" }
+    ];
 
 
     useEffect(() => {
@@ -68,6 +77,12 @@ import Footer from "../../Components/Footer/Footer";
             if (filters.uf) {
                 queryString += "uf=" + filters.uf + "&";
             }
+            if (filters.cidade) {
+              queryString += "cidade=" + filters.cidade + "&";
+          }
+          if (filters.castrado) {
+              queryString += "castrado=" + filters.castrado + "&";
+          }
 
             const response = await axios.get(`https://petfeliz.azurewebsites.net/api/PetFeliz/ListarPet?` + queryString);
             if (response.status !== 200) {
@@ -112,12 +127,16 @@ import Footer from "../../Components/Footer/Footer";
           sexo: '',
           tipo: '',
           uf: '',
+          cidade: "",
+          castrado: "",
         });
 
         setPlaceholderPorte('Selecione o porte');
         setPlaceholderSexo('Selecione o sexo');
         setPlaceholderTipo('Selecione o tipo');
         setPlaceholderUf('Selecione a UF');
+        setplaceholderCastrado('Status castração');
+        setplaceholderCidade('Selecione a cidade');
       };
 
       if (loading) {
@@ -251,33 +270,33 @@ import Footer from "../../Components/Footer/Footer";
     >
       <Picker.Item label={placeholderUf} value="" />
       <Picker.Item label="Acre" value="AC" />
-    <Picker.Item label="Alagoas" value="AL" />
-    <Picker.Item label="Amapá" value="AP" />
-    <Picker.Item label="Amazonas" value="AM" />
-    <Picker.Item label="Bahia" value="BA" />
-    <Picker.Item label="Ceará" value="CE" />
-    <Picker.Item label="Distrito Federal" value="DF" />
-    <Picker.Item label="Espírito Santo" value="ES" />
-    <Picker.Item label="Goiás" value="GO" />
-    <Picker.Item label="Maranhão" value="MA" />
-    <Picker.Item label="Mato Grosso" value="MT" />
-    <Picker.Item label="Mato Grosso do Sul" value="MS" />
-    <Picker.Item label="Minas Gerais" value="MG" />
-    <Picker.Item label="Pará" value="PA" />
-    <Picker.Item label="Paraíba" value="PB" />
-    <Picker.Item label="Paraná" value="PR" />
-    <Picker.Item label="Pernambuco" value="PE" />
-    <Picker.Item label="Piauí" value="PI" />
-    <Picker.Item label="Rio de Janeiro" value="RJ" />
-    <Picker.Item label="Rio Grande do Norte" value="RN" />
-    <Picker.Item label="Rio Grande do Sul" value="RS" />
-    <Picker.Item label="Rondônia" value="RO" />
-    <Picker.Item label="Roraima" value="RR" />
-    <Picker.Item label="Santa Catarina" value="SC" />
-    <Picker.Item label="São Paulo" value="SP" />
-    <Picker.Item label="Sergipe" value="SE" />
-    <Picker.Item label="Tocantins" value="TO" />
-    </Picker>
+      <Picker.Item label="Alagoas" value="AL" />
+      <Picker.Item label="Amapá" value="AP" />
+      <Picker.Item label="Amazonas" value="AM" />
+      <Picker.Item label="Bahia" value="BA" />
+      <Picker.Item label="Ceará" value="CE" />
+      <Picker.Item label="Distrito Federal" value="DF" />
+      <Picker.Item label="Espírito Santo" value="ES" />
+      <Picker.Item label="Goiás" value="GO" />
+      <Picker.Item label="Maranhão" value="MA" />
+      <Picker.Item label="Mato Grosso" value="MT" />
+      <Picker.Item label="Mato Grosso do Sul" value="MS" />
+      <Picker.Item label="Minas Gerais" value="MG" />
+      <Picker.Item label="Pará" value="PA" />
+      <Picker.Item label="Paraíba" value="PB" />
+      <Picker.Item label="Paraná" value="PR" />
+      <Picker.Item label="Pernambuco" value="PE" />
+      <Picker.Item label="Piauí" value="PI" />
+      <Picker.Item label="Rio de Janeiro" value="RJ" />
+      <Picker.Item label="Rio Grande do Norte" value="RN" />
+      <Picker.Item label="Rio Grande do Sul" value="RS" />
+      <Picker.Item label="Rondônia" value="RO" />
+      <Picker.Item label="Roraima" value="RR" />
+      <Picker.Item label="Santa Catarina" value="SC" />
+      <Picker.Item label="São Paulo" value="SP" />
+      <Picker.Item label="Sergipe" value="SE" />
+      <Picker.Item label="Tocantins" value="TO" />
+      </Picker>
         <View   style={styles.containerButtons} >
         <TouchableOpacity style={styles.Button} onPress={confirmFilter}>
           <Text>Filtrar</Text>

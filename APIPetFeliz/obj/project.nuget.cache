@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "vKbGW2HwJ9pIEOAuXx5vv6WdWEFSLTc20TlGYuzlQIw0UDz8ZFtILIKE1J9KmdNmF61X37CiZmU5GzQB86kXcA==",
+  "dgSpecHash": "dJu+LcrSZBYEaFT/UvmD8FutpH0GtxsOxMS3pSOKg/xS9+KGUlXytb+RoqojDuPVioEJROcXq/GMcJbcX18YYQ==",
   "success": true,
-  "projectFilePath": "D:\\MeusArquivos\\Testes\\API_TCC_ETEC-main\\API_TCC_ETEC-main\\APIPetFeliz9\\APIPetFeliz\\APIPetFeliz.csproj",
+  "projectFilePath": "D:\\MeusArquivos\\PetFeliz\\MobileTcc\\APIPetFeliz\\APIPetFeliz.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Luis Felipe\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\Luis Felipe\\.nuget\\packages\\azure.storage.blobs\\12.18.0\\azure.storage.blobs.12.18.0.nupkg.sha512",

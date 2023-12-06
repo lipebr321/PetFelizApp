@@ -6,7 +6,7 @@ namespace APIPetFeliz.DAO
     {
         public static MySqlConnection Build()
         {
-            return new MySqlConnection("Server=petfeliz.mysql.database.azure.com;Database=Bd_Pet_Feliz;Uid=petfeliz;Pwd=Teste@00;");
+            return new MySqlConnection("Server=localhost;Database=Bd_Pet_Feliz;Uid=root;Pwd=root;");
         }
     }
 }

@@ -15,7 +15,7 @@ const AlterarPet = ({ route }) => {
   const [descricaoPet, setDescricaoPet] = useState(pet.descricao_Pet);
 
   const handleAlterar = () => {
-    // Lógica para enviar as alterações para a API
+    
     console.log("Alterações:", {
       nomePet,
       statusPet,
@@ -25,7 +25,7 @@ const AlterarPet = ({ route }) => {
       vacinaData,
       descricaoPet,
     });
-    // Coloque a lógica para enviar esses dados alterados para a API aqui
+    
   };
 
   return (
