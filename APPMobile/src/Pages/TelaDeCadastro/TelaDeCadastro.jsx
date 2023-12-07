@@ -121,6 +121,8 @@ const TelaDeCadastro = ({ navigation }) => {
       console.error("Erro no cadastro:", error);
 
       Alert.alert("Erro", "Ocorreu um erro durante o cadastro");
+      setLoading(false);
+
     }
   };
 

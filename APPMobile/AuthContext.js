@@ -108,6 +108,14 @@ async function GetUserId() {
   }
 }
 
+async function UpdateUserData(updatedUserData) {
+  try {
+    await AsyncStorage.setItem("userData", JSON.stringify(updatedUserData));
+  } catch (error) {
+    console.error("Error updating user data in AsyncStorage:", error);
+  }
+}
+
 export const AuthContextFunctions = {
   SaveJWT,
   GetUserData,
@@ -115,5 +123,6 @@ export const AuthContextFunctions = {
   CheckUserLogin,
   fazerLogout,
   GetAndUserData,
-  GetUserId, 
+  GetUserId,
+  UpdateUserData,
 };

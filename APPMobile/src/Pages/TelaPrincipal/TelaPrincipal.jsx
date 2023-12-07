@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import {  View, ActivityIndicator,  Text,  ScrollView,  TouchableOpacity,  Image,  Picker,  Modal, } from "react-native";
+import {  View, ActivityIndicator,  Text,  ScrollView,  TouchableOpacity,  Image,  Modal, Picker } from "react-native";
 import axios from "axios";
 import styles from "../../Pages/TelaPrincipal/styles";
 import Footer from "../../Components/Footer/Footer";
-
+//import Picker from "react-native-picker-select";
 
     const TelaPrincipal = ({ navigation }) => {
       const [loading, setLoading] = useState(true);
@@ -16,39 +16,30 @@ import Footer from "../../Components/Footer/Footer";
         sexo: "",
         tipo: "",
         uf: "",
-        cidade: "",
-        castrado: "",
       });
 
-      const [placeholderPorte, setPlaceholderPorte] = useState('Selecione o porte');
-      const [placeholderCastrado, setplaceholderCastrado]= useState('Status castração');
-      const [placeholderCidade, setplaceholderCidade] =  useState ('Selecione a cidade');
+      const [placeholderPorte, setPlaceholderPorte] = useState('Selecione o porte');    
       const [placeholderSexo, setPlaceholderSexo] = useState('Selecione o sexo');
       const [placeholderTipo, setPlaceholderTipo] = useState('Selecione o tipo');
       const [placeholderUf, setPlaceholderUf] = useState('Selecione a UF');
 
       const porte_Pet = [
-        { value: "anao", label: "Anão" },
-        { value: "pequeno", label: "Pequeno Porte" },
-        { value: "medio", label: "Médio Porte" },
-        { value: "grande", label: "Grande Porte" },
+        { value: "Anão", label: "Anão" },
+        { value: "Pequeno Porte", label: "Pequeno Porte" },
+        { value: "Médio Porte", label: "Médio Porte" },
+        { value: "Grande Porte", label: "Grande Porte" },
         { value: "Molosso", label: "Molosso" },
       ];
 
       const sexo_Pet = [
-        { value: "f", label: "Fêmea" },
-        { value: "m", label: "Macho" },
+        { value: "Fêmea", label: "Fêmea" },
+        { value: "Macho", label: "Macho" },
       ];
 
       const nome_Animal = [
-        { value: "gato", label: "Gato" },
-        { value: "cao", label: "Cão" },
+        { value: "Gato", label: "Gato" },
+        { value: "Cão", label: "Cão" },
       ];
-
-      const castrado = [
-        { value: "Sim", label: "Sim" },
-        { value: "Não", label: "Não" }
-    ];
 
 
     useEffect(() => {
@@ -77,12 +68,7 @@ import Footer from "../../Components/Footer/Footer";
             if (filters.uf) {
                 queryString += "uf=" + filters.uf + "&";
             }
-            if (filters.cidade) {
-              queryString += "cidade=" + filters.cidade + "&";
-          }
-          if (filters.castrado) {
-              queryString += "castrado=" + filters.castrado + "&";
-          }
+            
 
             const response = await axios.get(`https://petfeliz.azurewebsites.net/api/PetFeliz/ListarPet?` + queryString);
             if (response.status !== 200) {
@@ -135,8 +121,6 @@ import Footer from "../../Components/Footer/Footer";
         setPlaceholderSexo('Selecione o sexo');
         setPlaceholderTipo('Selecione o tipo');
         setPlaceholderUf('Selecione a UF');
-        setplaceholderCastrado('Status castração');
-        setplaceholderCidade('Selecione a cidade');
       };
 
       if (loading) {
